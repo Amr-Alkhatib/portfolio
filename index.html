@@ -1,0 +1,651 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Amr Alkhatib</title>
+<meta name="description" content="Information Engineering student at TUM in Heilbronn. I build tools that make complicated systems easy to see: Visually, TruckOps and PitchRoom.">
+<meta name="author" content="Amr Alkhatib">
+<meta name="theme-color" content="#13204A">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Amr Alkhatib">
+<meta property="og:description" content="Information Engineering student at TUM in Heilbronn. I build tools that make complicated systems easy to see: Visually, TruckOps and PitchRoom.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=STIX+Two+Text:ital@1&display=swap">
+<style>
+/* Layout: a mathematician's notebook. Ink on cool paper, a live graph in the hero, framed case studies with switchable views, a models ledger, an ink contact band with a drifting curve. */
+:root{
+  --paper:#F3F5F8; --paper-2:#E9EDF3; --surface:#FFFFFF;
+  --ink:#13204A; --ink-2:#4A5672; --ink-3:#6B7591;
+  --rule:#D3DAE5; --grid:#E3E8F0; --grid-2:#EEF1F6; --axis:#8A94AB;
+  --plot:#2E5BEA; --plot-soft:rgba(46,91,234,.10); --marker:#FFE24A; --on-marker:#13204A;
+  --band:#13204A; --band-2:#1B2A5C; --band-fg:#F3F5F8; --band-fg-2:#C4CBE0; --band-rule:#2F3F73; --band-curve:#3D56A8;
+  --head:rgba(243,245,248,.86); --shadow:rgba(19,32,74,.10);
+  --display:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --body:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --math:"STIX Two Text","Cambria Math","Times New Roman",serif;
+  --wrap:1200px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1631; --paper-2:#17213F; --surface:#141E3C;
+  --ink:#EDF0F7; --ink-2:#AEB7CE; --ink-3:#8C96B0;
+  --rule:#2A365C; --grid:#223056; --grid-2:#1A2547; --axis:#5E6A8C;
+  --plot:#8DA6FF; --plot-soft:rgba(141,166,255,.12); --marker:#FFE24A; --on-marker:#13204A;
+  --band:#0A1128; --band-2:#121C3D; --band-fg:#EDF0F7; --band-fg-2:#AEB7CE; --band-rule:#26335A; --band-curve:#33478C;
+  --head:rgba(14,22,49,.86); --shadow:rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1631; --paper-2:#17213F; --surface:#141E3C;
+  --ink:#EDF0F7; --ink-2:#AEB7CE; --ink-3:#8C96B0;
+  --rule:#2A365C; --grid:#223056; --grid-2:#1A2547; --axis:#5E6A8C;
+  --plot:#8DA6FF; --plot-soft:rgba(141,166,255,.12); --marker:#FFE24A; --on-marker:#13204A;
+  --band:#0A1128; --band-2:#121C3D; --band-fg:#EDF0F7; --band-fg-2:#AEB7CE; --band-rule:#26335A; --band-curve:#33478C;
+  --head:rgba(14,22,49,.86); --shadow:rgba(0,0,0,.35); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:var(--plot);text-underline-offset:3px;text-decoration-thickness:1.5px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--plot);outline-offset:3px;border-radius:6px}
+h1,h2,h3{font-family:var(--display);color:var(--ink);margin:0;text-wrap:balance}
+p{margin:0}
+svg{display:block}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media (min-width:900px){.wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
+.math{font-family:var(--math);font-style:italic}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main{position:relative;z-index:1}
+.section-head h2,.cv h2{position:relative}
+.ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* sticky header with scroll progress */
+.site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background-color:transparent;border-bottom:1px solid transparent;transition:background-color .35s ease,border-color .35s ease,backdrop-filter .35s ease,-webkit-backdrop-filter .35s ease}
+.site-head.scrolled{background-color:var(--head);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom-color:var(--rule)}
+.site-head .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px}
+.brand{font-weight:600;font-size:18px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.brand-mark{width:28px;height:28px;border-radius:7px;background:var(--ink);display:grid;place-items:center}
+.brand-mark svg{width:20px;height:20px}
+.brand-mark path{stroke:var(--marker);stroke-width:2.2;fill:none;stroke-linecap:round}
+.nav{display:flex;gap:6px;align-items:center}
+.nav a{color:var(--ink-2);text-decoration:none;font-weight:500;font-size:15px;padding:7px 12px;border-radius:8px;transition:color .15s,background .15s}
+.nav a:hover{color:var(--ink);background:var(--paper-2)}
+.nav a[aria-current="true"]{color:var(--ink);background:var(--paper-2)}
+.progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--plot);transform-origin:0 50%;transform:scaleX(0)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:600 16px/1 var(--body);padding:14px 22px;border-radius:10px;border:1.5px solid var(--ink);text-decoration:none;cursor:pointer;background:transparent;color:var(--ink);transition:background .18s,color .18s,border-color .18s,transform .18s}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.primary:hover{background:var(--plot);border-color:var(--plot);color:var(--surface)}
+.btn:not(.primary):hover{background:var(--ink);color:var(--paper)}
+.btn:active{transform:translateY(1px)}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:minmax(0,0.92fr) minmax(0,1fr);gap:64px;align-items:center;padding-block:56px 104px}
+.hero h1{font-size:clamp(40px,5.2vw,64px);line-height:1.06;letter-spacing:-0.025em;font-weight:700}
+.intro{display:flex;flex-direction:column;gap:26px;min-width:0}
+.lede{font-size:19px;line-height:1.58;color:var(--ink-2);max-width:34em}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.facts{font-size:14px;color:var(--ink-2)}
+
+.explorer{margin:0;background:var(--surface);border:1px solid var(--rule);border-radius:16px;padding:22px 24px;display:flex;flex-direction:column;gap:16px;min-width:0;box-shadow:0 24px 48px -32px var(--shadow)}
+.explorer-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.formula{font-family:var(--math);font-style:italic;font-size:22px}
+.readout{background:var(--marker);color:var(--on-marker);font-weight:500;font-size:13px;padding:4px 10px;border-radius:5px;font-variant-numeric:tabular-nums;transition:transform .25s}
+.readout.bump{transform:scale(1.08)}
+.plot-wrap{position:relative}
+#plot{width:100%;height:auto;border-radius:8px;background:var(--surface);touch-action:pan-y;cursor:crosshair}
+#plot .g1{stroke:var(--grid)} #plot .g2{stroke:var(--grid-2)} #plot .ax{stroke:var(--axis)}
+#plot .curve{fill:none;stroke:var(--plot);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+#plot .root{fill:var(--marker);stroke:var(--ink);stroke-width:1.5}
+#plot text{fill:var(--ink-3);font:11px var(--body)}
+#plot .probe-line{stroke:var(--ink-3);stroke-dasharray:3 4}
+#plot .probe-dot{fill:var(--surface);stroke:var(--plot);stroke-width:2.5}
+.probe-tag{position:absolute;pointer-events:none;background:var(--ink);color:var(--paper);font:500 12px/1 var(--body);padding:6px 8px;border-radius:6px;white-space:nowrap;font-variant-numeric:tabular-nums;transform:translate(-50%,-140%);opacity:0;transition:opacity .12s}
+.probe-tag.on{opacity:1}
+.sliders{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px}
+.slider{display:grid;grid-template-columns:18px minmax(0,1fr) 44px;align-items:center;gap:12px}
+.slider label{font-family:var(--math);font-style:italic;font-size:20px}
+.slider output{font-size:14px;font-weight:500;color:var(--ink-2);text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--plot)}
+.explorer-foot{display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
+.caption{font-size:14px;line-height:1.5;color:var(--ink-2)}
+.controls{display:flex;gap:8px;flex:none}
+.chipbtn{display:inline-flex;align-items:center;gap:6px;background:var(--paper-2);color:var(--ink);border:1px solid var(--rule);border-radius:999px;font:600 13px var(--body);padding:6px 12px;cursor:pointer;transition:background .15s,border-color .15s}
+.chipbtn:hover{border-color:var(--ink-3)}
+.chipbtn .ico{width:14px;height:14px}
+
+/* sections */
+.section{padding-block:104px;scroll-margin-top:72px}
+.section-head{display:flex;flex-direction:column;gap:12px;margin-bottom:64px}
+.section-head h2{font-size:clamp(32px,3.4vw,44px);line-height:1.08;letter-spacing:-0.02em}
+.section-head p{font-size:18px;color:var(--ink-2);max-width:36em}
+
+/* projects */
+.projects{display:flex;flex-direction:column;gap:112px}
+.project{display:grid;grid-template-columns:minmax(0,620px) minmax(0,1fr);gap:56px;align-items:start}
+.browser{border:1px solid var(--rule);border-radius:12px;overflow:hidden;background:var(--surface);min-width:0;box-shadow:0 30px 60px -40px var(--shadow);transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.project:hover .browser{transform:translateY(-6px);box-shadow:0 40px 70px -40px var(--shadow)}
+.browser-bar{display:flex;align-items:center;gap:7px;padding:9px 12px;background:var(--paper-2);border-bottom:1px solid var(--rule)}
+.dots{display:flex;gap:6px;flex:none}
+.dots i{width:9px;height:9px;border-radius:50%;background:var(--rule);display:block}
+.url{font-size:12px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;margin-left:6px;flex:1}
+.views{display:flex;gap:4px;flex:none}
+.views button{font:600 12px var(--body);color:var(--ink-2);background:transparent;border:1px solid transparent;border-radius:6px;padding:5px 9px;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--surface);color:var(--ink);border-color:var(--rule)}
+.screen{position:relative;aspect-ratio:8/5;max-width:100%;background:var(--grid)}
+.screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
+.screen img.on{opacity:1}
+.case{display:flex;flex-direction:column;gap:18px;min-width:0}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
+.chip{font-weight:500;color:var(--ink);padding:5px 10px;border-radius:5px;border:1px solid var(--rule);background:var(--surface)}
+.chip.prize{background:var(--marker);color:var(--on-marker);border-color:transparent}
+.case h3{font-size:36px;line-height:1.08;letter-spacing:-0.02em}
+.summary{font-weight:500;font-size:19px;line-height:1.45}
+.block{display:flex;flex-direction:column;gap:4px}
+.block b{font-weight:600;font-size:14px}
+.block p{font-size:16px;line-height:1.56;color:var(--ink-2)}
+.small{font-size:14px;line-height:1.5;color:var(--ink-2)}
+.stack{display:flex;flex-wrap:wrap;gap:6px}
+.stack span{font-size:13px;color:var(--ink-2);background:var(--paper-2);border-radius:5px;padding:4px 8px}
+.ctas{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:12px 16px 12px 18px;border-radius:10px;font:600 15px/1 var(--body);text-decoration:none;background:var(--ink);color:var(--paper);border:1.5px solid var(--ink);transition:background .18s,border-color .18s,color .18s}
+.cta .ico{width:16px;height:16px;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.cta:hover{background:var(--plot);border-color:var(--plot);color:var(--surface)}
+.cta:hover .ico.arrow{transform:translate(2px,-2px)}
+.cta.ghost{background:transparent;color:var(--ink);border-color:var(--rule)}
+.cta.ghost:hover{border-color:var(--ink);background:var(--surface);color:var(--ink)}
+
+/* models ledger */
+.models{background:color-mix(in srgb,var(--surface) 62%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--rule)}
+.ledger{display:flex;flex-direction:column}
+.ledger-row{display:grid;grid-template-columns:64px minmax(0,1.1fr) minmax(0,2.1fr) minmax(0,1.3fr);gap:24px;padding:18px 12px;margin-inline:-12px;border-top:1px solid var(--rule);font-size:16px;line-height:1.5;border-radius:8px;transition:background .2s}
+.ledger-row:not(.head):hover{background:var(--plot-soft)}
+.ledger-row:not(.head):hover .yr{color:var(--ink)}
+.ledger-row.head{border-top:0;padding-block:0 12px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.yr{font-variant-numeric:tabular-nums;color:var(--ink-2);transition:color .2s}
+.sys{font-weight:600}
+.what,.rec{color:var(--ink-2)}
+
+/* experience */
+.cv{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:64px}
+.cv h2{font-size:clamp(32px,3.4vw,44px);line-height:1.08;letter-spacing:-0.02em;margin-bottom:36px}
+.entries{display:flex;flex-direction:column;gap:36px}
+.entry{display:grid;grid-template-columns:150px minmax(0,1fr);gap:24px}
+.when{font-size:14px;font-weight:500;color:var(--ink-2);padding-top:3px;font-variant-numeric:tabular-nums}
+.entry h3,.edu h3,.skills h3{font-size:20px;line-height:1.3;font-weight:600}
+.org{color:var(--ink-2);font-size:16px}
+.desc{margin-top:8px;font-size:16px;line-height:1.56;color:var(--ink-2)}
+.edu{display:flex;flex-direction:column;gap:4px}
+.edu p{color:var(--ink-2)}
+.skills{margin-top:8px;display:flex;flex-direction:column;gap:12px}
+.skill{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;font-size:15px}
+.skill b{font-weight:500}
+.skill span{color:var(--ink-2)}
+
+/* contact */
+.contact{position:relative;z-index:1;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--band) 22%,transparent) 90px,color-mix(in srgb,var(--band) 70%,transparent) 190px,var(--band) 280px);color:var(--band-fg);overflow:hidden;scroll-margin-top:-190px}
+.band-curve{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 300px);mask-image:linear-gradient(to bottom,transparent 0,#000 300px)}
+.band-curve path{fill:none;stroke:var(--band-curve);stroke-width:2}
+.band-curve path.thin{stroke-width:1;opacity:.6}
+.contact-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:64px;padding-block:320px 72px;align-items:end}
+.contact h2{color:var(--band-fg);font-size:clamp(34px,4.4vw,56px);line-height:1.05;letter-spacing:-0.025em;max-width:13em}
+.contact-main{display:flex;flex-direction:column;gap:28px;min-width:0}
+.contact-main > p{color:var(--band-fg-2);font-size:18px;max-width:34em}
+.mail-card{display:flex;flex-direction:column;gap:14px;background:var(--band-2);border:1px solid var(--band-rule);border-radius:16px;padding:22px 24px;max-width:560px}
+.mail-label{font-size:13px;font-weight:500;color:var(--band-fg-2)}
+.email{font:700 clamp(24px,3vw,34px)/1.15 var(--display);letter-spacing:-0.015em;color:var(--band-fg);text-decoration:none;overflow-wrap:anywhere;user-select:all}
+.mail-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-light{display:inline-flex;align-items:center;gap:8px;font:600 15px/1 var(--body);padding:12px 16px;border-radius:10px;cursor:pointer;text-decoration:none;border:1.5px solid var(--band-fg);background:var(--band-fg);color:var(--band);transition:background .18s,color .18s,border-color .18s}
+.btn-light:hover{background:var(--marker);border-color:var(--marker);color:var(--on-marker)}
+.btn-light.ghost{background:transparent;color:var(--band-fg);border-color:var(--band-rule)}
+.btn-light.ghost:hover{border-color:var(--band-fg);background:transparent;color:var(--band-fg)}
+.btn-light .ico{width:16px;height:16px}
+.local{display:flex;align-items:center;gap:10px;color:var(--band-fg-2);font-size:15px}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--marker);box-shadow:0 0 0 0 rgba(255,226,74,.6)}
+.elsewhere{display:flex;flex-direction:column;border-top:1px solid var(--band-rule);min-width:0}
+.elsewhere-title{font-size:13px;font-weight:500;color:var(--band-fg-2);padding-block:16px 4px}
+.ext-row{display:grid;grid-template-columns:40px minmax(0,1fr) 20px;align-items:center;gap:14px;padding:16px 4px;border-bottom:1px solid var(--band-rule);color:var(--band-fg);text-decoration:none;transition:background .2s,padding .2s}
+.ext-row:hover{background:var(--band-2);padding-inline:12px 8px}
+.ext-row .badge{width:40px;height:40px;border-radius:10px;background:var(--band-2);border:1px solid var(--band-rule);display:grid;place-items:center}
+.ext-row b{display:block;font-weight:600;font-size:17px}
+.ext-row small{display:block;color:var(--band-fg-2);font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ext-row .arrow{transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.ext-row:hover .arrow{transform:translate(3px,-3px);color:var(--marker)}
+.foot-bar{position:relative;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:22px;border-top:1px solid var(--band-rule);font-size:14px;color:var(--band-fg-2)}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap}
+.foot-links a{color:var(--band-fg-2);text-decoration:none}
+.foot-links a:hover{color:var(--band-fg)}
+.top-btn{display:inline-flex;align-items:center;gap:8px;background:transparent;border:1px solid var(--band-rule);color:var(--band-fg);border-radius:999px;padding:8px 14px;font:600 13px var(--body);cursor:pointer;text-decoration:none}
+.top-btn:hover{border-color:var(--band-fg)}
+
+@media (max-width:900px){
+  .hero .wrap,.project,.cv,.contact-grid{grid-template-columns:minmax(0,1fr);gap:40px}
+  .hero .wrap{padding-block:28px 72px}
+  .section{padding-block:80px}
+  .projects{gap:80px}
+  .case h3{font-size:30px}
+  .ledger-row{grid-template-columns:52px minmax(0,1fr);gap:4px 16px}
+  .ledger-row.head{display:none}
+  .what,.rec{grid-column:2}
+  .contact-grid{padding-block:300px 56px}
+  .nav a:not(.keep){display:none}
+}
+@media (max-width:560px){
+  .sliders{grid-template-columns:1fr}
+  .explorer{padding:18px 16px}
+  .formula{font-size:18px}
+  .entry{grid-template-columns:minmax(0,1fr);gap:4px}
+  .explorer-foot{flex-direction:column;gap:10px}
+  .views button{padding:5px 7px}
+  .url{display:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .curve.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s cubic-bezier(.4,.1,.2,1) .15s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  .pulse{animation:pulse 2.4s ease-out infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,226,74,.55)}70%{box-shadow:0 0 0 10px rgba(255,226,74,0)}100%{box-shadow:0 0 0 0 rgba(255,226,74,0)}}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<header class="site-head" id="head">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M2 15 C5 2, 7 2, 9 10 S 14 18, 18 4"/></svg></span>Amr Alkhatib</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work" class="keep">Work</a><a href="#models">Models</a><a href="#experience">Experience</a><a href="#contact" class="keep">Contact</a>
+    </nav>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="intro">
+        <h1>I build tools that make complicated systems easy to see.</h1>
+        <p class="lede">I study Information Engineering at TUM in Heilbronn and come from applied mathematics. I like turning real systems into models, and models into software people can use: cache hierarchies, food-truck fleets, a pitch in front of a jury.</p>
+        <div class="actions">
+          <a class="btn primary" href="#work">See my work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+        <p class="facts">Heilbronn, Germany. Arabic native, English C1, German B1, French A2.</p>
+      </div>
+
+      <figure class="explorer" aria-label="Interactive quintic explorer">
+        <div class="explorer-top">
+          <span class="formula">f(x) = x⁵ + ax³ + bx² + cx + d</span>
+          <span class="readout" id="readout" aria-live="polite">5 real roots</span>
+        </div>
+        <div class="plot-wrap">
+          <svg id="plot" viewBox="0 0 548 300" role="img" aria-label="Graph of the quintic and its real roots"></svg>
+          <span class="probe-tag" id="probeTag"></span>
+        </div>
+        <div class="sliders">
+          <div class="slider"><label for="ca">a</label><input id="ca" type="range" min="-8" max="8" step="0.1" value="-5"><output id="oa" for="ca">−5.0</output></div>
+          <div class="slider"><label for="cb">b</label><input id="cb" type="range" min="-8" max="8" step="0.1" value="0"><output id="ob" for="cb">0.0</output></div>
+          <div class="slider"><label for="cc">c</label><input id="cc" type="range" min="-8" max="8" step="0.1" value="4"><output id="oc" for="cc">4.0</output></div>
+          <div class="slider"><label for="cd">d</label><input id="cd" type="range" min="-8" max="8" step="0.1" value="0"><output id="od" for="cd">0.0</output></div>
+        </div>
+        <div class="explorer-foot">
+          <figcaption class="caption">Drag <span class="math">a</span>, <span class="math">b</span>, <span class="math">c</span> and <span class="math">d</span>, or hover the graph, to see how the real roots move. I worked on this family of quintics in 2022 for the Kolmogorov Readings at Moscow State University, where the paper earned a third-degree diploma.</figcaption>
+          <div class="controls">
+            <button class="chipbtn" id="play" type="button" aria-pressed="true"><svg class="ico" viewBox="0 0 24 24" id="playIco"><path d="M9 6v12M15 6v12"/></svg><span id="playLabel">Pause</span></button>
+            <button class="chipbtn" id="reset" type="button"><svg class="ico" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5"/></svg>Reset</button>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Selected work</h2>
+        <p>One hackathon prize winner and two products that started as real problems brought by companies to the TUM Business Game.</p>
+      </div>
+      <div class="projects">
+
+        <article class="project">
+          <div class="browser">
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">visually-ppfe.vercel.app</span>
+              <span class="views" role="group" aria-label="Visually views"><button type="button" aria-pressed="true" data-i="0">Results</button><button type="button" aria-pressed="false" data-i="1">Hierarchy</button></span></div>
+            <div class="screen">
+              <img class="on" src="shots/visually-charts.jpg" alt="Visually: hit rate over time and stacked power chart after a simulation run" width="800" height="500">
+              <img src="shots/visually-arch.jpg" alt="Visually: system architecture overview from CPU core to L1 cache" width="800" height="500" loading="lazy">
+            </div>
+          </div>
+          <div class="case">
+            <div class="meta"><span class="chip prize">2nd place, TOMFoolery Hackathon at TUM</span><span>Nov 2025</span></div>
+            <h3>Visually</h3>
+            <p class="summary">A cache simulator that makes the memory hierarchy visible.</p>
+            <div class="block"><b>The problem</b><p>Students learn hit rates and AMAT as formulas without ever seeing a set fill up or a block get evicted.</p></div>
+            <div class="block"><b>What I built</b><p>A React simulator for RISC-V cache hierarchies. Tune size, block size, associativity and replacement policy, run a trace or RISC-V assembly, and watch hits, misses, energy and AMAT change step by step.</p></div>
+            <div class="block"><b>The hard part</b><p>Keeping it exact. Set index, tag and miss type (cold, capacity, conflict) are computed for every access, and a waveform view shows clock, hit and miss signals like a logic analyser.</p></div>
+            <p class="small">Team project. I built the React front end and embedded the cache simulation.</p>
+            <div class="stack"><span>React</span><span>Neon Postgres</span><span>Vercel</span><span>Gemini API</span></div>
+            <div class="ctas">
+              <a class="cta" href="https://visually-ppfe.vercel.app/" target="_blank" rel="noopener">Open the simulator<svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+              <a class="cta ghost" href="https://github.com/Prashantstrugglestocode/Visually" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg>View the code</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="browser">
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">truckops03.lovable.app</span>
+              <span class="views" role="group" aria-label="TruckOps views"><button type="button" aria-pressed="true" data-i="0">Booking site</button><button type="button" aria-pressed="false" data-i="1">Back office</button></span></div>
+            <div class="screen">
+              <img class="on" src="shots/truckops-hero.jpg" alt="TruckOps landing page: Street food, served corporate" width="800" height="500" loading="lazy">
+              <img src="shots/truckops-admin.jpg" alt="TruckOps back office dashboard with upcoming events, revenue and approvals" width="800" height="500" loading="lazy">
+            </div>
+          </div>
+          <div class="case">
+            <div class="meta"><span class="chip">TUM Business Game</span><span>Oct 2026</span></div>
+            <h3>TruckOps</h3>
+            <p class="summary">Booking and operations software for a corporate food-truck caterer.</p>
+            <div class="block"><b>The problem</b><p>Every event quote meant checking permits town by town, night-time noise rules, crew working hours, road distance and VAT by hand.</p></div>
+            <div class="block"><b>What I built</b><p>A booking flow that prices the event live, picks the fewest trucks that cover every guest and diet, and explains why a truck can’t come. Behind it, a back office for fleet, yards, pricing, permits and approvals.</p></div>
+            <div class="block"><b>The hard part</b><p>Turning German rules into code: state holidays, TA Lärm after 22:00, street-use permits, §12 GastG for alcohol, ArbZG rest days, the 7% and 19% VAT split, and OSRM road distances.</p></div>
+            <p class="small">Built on a real problem brought by a partner company.</p>
+            <div class="stack"><span>React</span><span>TypeScript</span><span>Supabase</span><span>OpenStreetMap</span><span>OSRM</span><span>Lovable</span></div>
+            <div class="ctas">
+              <a class="cta" href="https://truckops03.lovable.app/" target="_blank" rel="noopener">Open the app<svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="browser">
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">pitchroom03.lovable.app</span>
+              <span class="views" role="group" aria-label="PitchRoom views"><button type="button" aria-pressed="true" data-i="0">Report</button><button type="button" aria-pressed="false" data-i="1">Transcript</button></span></div>
+            <div class="screen">
+              <img class="on" src="shots/pitchroom-report.jpg" alt="PitchRoom report with delivery and readiness scores and the judge's verdict" width="800" height="500" loading="lazy">
+              <img src="shots/pitchroom-transcript.jpg" alt="PitchRoom transcript with fillers and unclear words marked" width="800" height="500" loading="lazy">
+            </div>
+          </div>
+          <div class="case">
+            <div class="meta"><span class="chip">TUM Business Game</span><span>Oct 2026</span></div>
+            <h3>PitchRoom</h3>
+            <p class="summary">Pitch rehearsal that tells you what the jury will hear.</p>
+            <div class="block"><b>The problem</b><p>People rehearse pitches alone, so they never hear their own fillers, rushed sections or missing ask.</p></div>
+            <div class="block"><b>What I built</b><p>Record or upload a take and get a delivery score, a transcript with every filler and hesitation marked, a judge’s card, and a check of problem, solution, market, traction, team and ask, with suggested rewrites.</p></div>
+            <div class="block"><b>The hard part</b><p>Lining up three signals on one timeline: transcription with speaker separation, voice measurements taken in the browser, and an LLM judge that grades for the audience you choose.</p></div>
+            <p class="small">Built on a real problem brought by a partner company.</p>
+            <div class="stack"><span>React</span><span>TypeScript</span><span>AssemblyAI</span><span>Gemini</span><span>Lovable</span></div>
+            <div class="ctas">
+              <a class="cta" href="https://pitchroom03.lovable.app/" target="_blank" rel="noopener">Try a rehearsal<svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section models" id="models">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Things I’ve modelled</h2>
+        <p>Most of my work is a model of a real system, the software around one, or both.</p>
+      </div>
+      <div class="ledger" role="table" aria-label="Models and systems">
+        <div class="ledger-row head" role="row"><span role="columnheader">Year</span><span role="columnheader">System</span><span role="columnheader">What I did</span><span role="columnheader">Recognition</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2026</span><span class="sys" role="cell">Food-truck fleet and permits</span><span class="what" role="cell">Rules engine and truck optimiser for a corporate caterer (TruckOps)</span><span class="rec" role="cell">TUM Business Game</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2026</span><span class="sys" role="cell">Pitch delivery</span><span class="what" role="cell">Transcription, voice measurements and an LLM judge for a pitch take (PitchRoom)</span><span class="rec" role="cell">TUM Business Game</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2026</span><span class="sys" role="cell">Executive retention after M&amp;A</span><span class="what" role="cell">Python pipeline over more than 2,000 transactions for TUM’s Professorship of Strategic Management</span><span class="rec" role="cell">Research tooling</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2025</span><span class="sys" role="cell">CPU cache hierarchy</span><span class="what" role="cell">Interactive RISC-V cache simulator (Visually)</span><span class="rec" role="cell">2nd place, TOMFoolery Hackathon at TUM</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2022</span><span class="sys" role="cell">Aircraft boarding</span><span class="what" role="cell">Discrete passenger-flow simulation of boarding and disembarking. Led a team of four, 46-page report</span><span class="rec" role="cell">Certificate of Honour, IM²C</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2022</span><span class="sys" role="cell">Quintic equations</span><span class="what" role="cell">Proved root existence for <span class="math">x⁵ + ax³ + bx² + cx + d</span> and built a Maple solver. 6-page paper</span><span class="rec" role="cell">Third-degree diploma, Kolmogorov Readings, Moscow State University</span></div>
+        <div class="ledger-row" role="row"><span class="yr" role="cell">2021</span><span class="sys" role="cell">Urban parking</span><span class="what" role="cell">Model of driver behaviour, car types and slot sizes, solved for several cities</span><span class="rec" role="cell">Certificate of Merit, MMT, Moscow State University</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="wrap cv">
+      <div>
+        <h2>Experience</h2>
+        <div class="entries">
+          <div class="entry"><span class="when">Apr – Sep 2026</span><div><h3>Student Assistant</h3><p class="org">TUM Professorship of Strategic Management, Heilbronn</p><p class="desc">Built a Python pipeline that extracts and processes executive data for more than 2,000 M&amp;A transactions and computes retention metrics for ongoing research, cutting hours of manual work to minutes. Also ran literature reviews and facilitated seminar sessions.</p></div></div>
+          <div class="entry"><span class="when">Feb – May 2025</span><div><h3>Mathematical Modelling Supervisor</h3><p class="org">National Centre for the Distinguished, Homs</p><p class="desc">Redesigned the training programme for 3 coaches and 28 students preparing for MMT and IM²C. Every student qualified for the national round, and the centre took all 8 of Syria’s international places.</p></div></div>
+          <div class="entry"><span class="when">Oct 2022 – Sep 2023</span><div><h3>Front-End Web Developer</h3><p class="org">Xcore Corporation, Swaida</p><p class="desc">Worked on more than 15 projects and reviewed 5 more in a front-end team of 10. Introduced shared practices that raised the team’s output by 22% in a quarter.</p></div></div>
+        </div>
+      </div>
+      <div>
+        <h2>Education</h2>
+        <div class="entries">
+          <div class="edu"><span class="when">Since Oct 2025</span><h3>B.Sc. Information Engineering</h3><p>Technical University of Munich, Heilbronn. Specialisation in cyber-physical systems.</p></div>
+          <div class="edu"><span class="when">Sep 2023 – Feb 2025</span><h3>B.Sc. Computer Science</h3><p>Ittihad Private University. GPA 3.77 / 4.</p></div>
+          <div class="skills">
+            <h3>Skills</h3>
+            <div class="skill"><b>Build</b><span>React, JavaScript, HTML, CSS, Angular</span></div>
+            <div class="skill"><b>Data</b><span>Python (pandas, openpyxl), MATLAB, Maple, Excel, statistics</span></div>
+            <div class="skill"><b>Systems</b><span>C++, Java, Assembly, Arduino</span></div>
+            <div class="skill"><b>AI</b><span>Claude, MCP servers, API integration, workflow automation</span></div>
+            <div class="skill"><b>Languages</b><span>Arabic native, English C1, German B1, French A2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="contact" id="contact">
+  <svg class="band-curve" id="bandCurve" viewBox="0 0 1200 420" preserveAspectRatio="none" aria-hidden="true"><path id="bc1"/><path id="bc2" class="thin"/></svg>
+  <div class="wrap contact-grid">
+    <div class="contact-main">
+      <h2>Have a system that needs a clearer picture?</h2>
+      <p>Write to me about a role, a project or anything on this page. Email is the fastest way to reach me.</p>
+      <div class="mail-card">
+        <span class="mail-label">Email</span>
+        <a class="email" id="email" href="mailto:amr.alkhatib@tum.de">amr.alkhatib@tum.de</a>
+        <div class="mail-actions">
+          <button class="btn-light" id="copy" type="button"><svg class="ico" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></svg><span id="copyLabel">Copy address</span></button>
+          <a class="btn-light ghost" href="mailto:amr.alkhatib@tum.de"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Open mail app</a>
+        </div>
+      </div>
+      <p class="local"><span class="pulse" aria-hidden="true"></span><span>Heilbronn, Germany. It’s <time id="clock">--:--</time> here.</span></p>
+    </div>
+    <nav class="elsewhere" aria-label="Profiles">
+      <span class="elsewhere-title">Elsewhere</span>
+      <a class="ext-row" href="https://github.com/Amr-Alkhatib" target="_blank" rel="noopener"><span class="badge"><svg class="ico" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg></span><span><b>GitHub</b><small>github.com/Amr-Alkhatib</small></span><svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a class="ext-row" href="https://www.linkedin.com/in/amralkhatib86" target="_blank" rel="noopener"><span class="badge"><svg class="ico" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 12h18"/></svg></span><span><b>LinkedIn</b><small>linkedin.com/in/amralkhatib86</small></span><svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+      <a class="ext-row" href="https://github.com/Prashantstrugglestocode/Visually" target="_blank" rel="noopener"><span class="badge"><svg class="ico" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 10v10"/></svg></span><span><b>Visually source code</b><small>Hackathon team repository</small></span><svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+    </nav>
+  </div>
+  <div class="wrap foot-bar">
+    <span>© 2026 Amr Alkhatib</span>
+    <span class="foot-links"><a href="#work">Work</a><a href="#models">Models</a><a href="#experience">Experience</a></span>
+    <a class="top-btn" href="#top"><svg class="ico" viewBox="0 0 24 24" style="width:14px;height:14px"><path d="M12 19V5M6 11l6-6 6 6"/></svg>Back to top</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NS='http://www.w3.org/2000/svg', W=548, H=300, X0=-2.75, X1=2.75, Y0=-6, Y1=6;
+  const sx=x=>(x-X0)/(X1-X0)*W, sy=y=>H-(y-Y0)/(Y1-Y0)*H;
+  const svg=document.getElementById('plot');
+  const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e;};
+  const fmt=(v,n=1)=>(v<0?'−':'')+Math.abs(v).toFixed(n);
+  for(let x=-2.5;x<=2.5;x+=0.5)svg.appendChild(mk('line',{x1:sx(x),y1:0,x2:sx(x),y2:H,class:Number.isInteger(x)?'g1':'g2','stroke-width':1}));
+  for(let y=-6;y<=6;y++)svg.appendChild(mk('line',{x1:0,y1:sy(y),x2:W,y2:sy(y),class:y%2===0?'g1':'g2','stroke-width':1}));
+  svg.appendChild(mk('line',{x1:0,y1:sy(0),x2:W,y2:sy(0),class:'ax','stroke-width':1.25}));
+  svg.appendChild(mk('line',{x1:sx(0),y1:0,x2:sx(0),y2:H,class:'ax','stroke-width':1.25}));
+  for(const x of [-2,-1,1,2]){const t=mk('text',{x:sx(x)-(x<0?7:3),y:sy(0)+18});t.textContent=fmt(x,0);svg.appendChild(t);}
+  for(const y of [-4,4]){const t=mk('text',{x:sx(0)+6,y:sy(y)+4});t.textContent=fmt(y,0);svg.appendChild(t);}
+  const curve=mk('path',{class:'curve',pathLength:1});svg.appendChild(curve);
+  const dots=mk('g',{});svg.appendChild(dots);
+  const probe=mk('g',{style:'display:none'});const pl=mk('line',{class:'probe-line',y1:0,y2:H,'stroke-width':1});const pd=mk('circle',{class:'probe-dot',r:5});probe.append(pl,pd);svg.appendChild(probe);
+  const tag=document.getElementById('probeTag');
+
+  const ids=['a','b','c','d'], defaults={a:-5,b:0,c:4,d:0};
+  const inp=Object.fromEntries(ids.map(k=>[k,document.getElementById('c'+k)]));
+  const out=Object.fromEntries(ids.map(k=>[k,document.getElementById('o'+k)]));
+  const readout=document.getElementById('readout');
+  let v={...defaults}, lastCount=5;
+  const f=x=>x**5+v.a*x**3+v.b*x**2+v.c*x+v.d;
+
+  function realRoots(N){
+    const B=1+Math.max(Math.abs(v.a),Math.abs(v.b),Math.abs(v.c),Math.abs(v.d)), r=[];
+    let px=-B, pf=f(px);
+    for(let i=1;i<=N;i++){const x=-B+2*B*i/N, fx=f(x);
+      if(pf===0)r.push(px);
+      else if(pf*fx<0){let lo=px,hi=x;for(let k=0;k<50;k++){const m=(lo+hi)/2;if(f(lo)*f(m)<=0)hi=m;else lo=m;}r.push((lo+hi)/2);}
+      px=x;pf=fx;}
+    if(pf===0)r.push(px);
+    return r;
+  }
+  function draw(N){
+    ids.forEach(k=>{out[k].textContent=fmt(v[k]);});
+    let d='',pen=false;
+    for(let i=0;i<=480;i++){const x=X0+(X1-X0)*i/480,y=f(x);if(y<Y0-2||y>Y1+2){pen=false;continue;}d+=(pen?'L':'M')+sx(x).toFixed(1)+' '+sy(y).toFixed(1)+' ';pen=true;}
+    curve.setAttribute('d',d.trim());
+    const roots=realRoots(N||5000);dots.replaceChildren();let off=0;
+    for(const r of roots){if(r<X0||r>X1){off++;continue;}dots.appendChild(mk('circle',{cx:sx(r).toFixed(1),cy:sy(0).toFixed(1),r:7,class:'root'}));}
+    const n=roots.length;
+    readout.textContent=n+' real root'+(n===1?'':'s')+(off?', '+off+' off the graph':'');
+    if(n!==lastCount){readout.classList.add('bump');setTimeout(()=>readout.classList.remove('bump'),220);lastCount=n;}
+    if(probeX!==null)placeProbe(probeX);
+  }
+
+  // probe on hover
+  let probeX=null;
+  function placeProbe(x){const y=f(x);const cy=Math.max(-8,Math.min(H+8,sy(y)));pl.setAttribute('x1',sx(x));pl.setAttribute('x2',sx(x));pd.setAttribute('cx',sx(x));pd.setAttribute('cy',cy);
+    const box=svg.getBoundingClientRect(), k=box.width/W;tag.style.left=(sx(x)*k)+'px';tag.style.top=(Math.max(14,Math.min(H-4,cy))*k)+'px';
+    tag.textContent='x = '+fmt(x,2)+'   f(x) = '+(Math.abs(y)>999?(y<0?'−':'')+'large':fmt(y,2));}
+  svg.addEventListener('pointermove',e=>{const box=svg.getBoundingClientRect();const x=X0+(e.clientX-box.left)/box.width*(X1-X0);probeX=Math.max(X0,Math.min(X1,x));probe.style.display='';tag.classList.add('on');placeProbe(probeX);});
+  svg.addEventListener('pointerleave',()=>{probeX=null;probe.style.display='none';tag.classList.remove('on');});
+
+  // gentle drift animation
+  const playBtn=document.getElementById('play'), playLabel=document.getElementById('playLabel'), playIco=document.getElementById('playIco');
+  let playing=!reduce, visible=true, t0=null, raf=0, phase=0, ready=reduce;
+  function setPlaying(p){playing=p;playBtn.setAttribute('aria-pressed',String(p));playLabel.textContent=p?'Pause':'Animate';
+    playIco.innerHTML=p?'<path d="M9 6v12M15 6v12"/>':'<path d="M8 5v14l11-7z"/>';if(p)loop();}
+  function loop(){cancelAnimationFrame(raf);if(!playing||!visible||!ready)return;raf=requestAnimationFrame(tick);}
+  function tick(ts){if(t0===null)t0=ts-phase*1000;const t=(ts-t0)/1000;phase=t;
+    v.a=-5+2.2*Math.sin(t*0.45);v.b=1.6*Math.sin(t*0.31+0.6);v.c=4+2.0*Math.sin(t*0.27+1.2);v.d=1.4*Math.sin(t*0.39+2.1);
+    ids.forEach(k=>{inp[k].value=v[k].toFixed(1);});draw(2400);if(playing&&visible)raf=requestAnimationFrame(tick);}
+  playBtn.addEventListener('click',()=>{if(!playing){t0=null;}setPlaying(!playing);});
+  ids.forEach(k=>inp[k].addEventListener('input',()=>{if(playing)setPlaying(false);v[k]=parseFloat(inp[k].value);draw();}));
+  document.getElementById('reset').addEventListener('click',()=>{setPlaying(false);phase=0;v={...defaults};ids.forEach(k=>inp[k].value=v[k]);draw();});
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;if(visible)loop();else cancelAnimationFrame(raf);}).observe(svg);
+  draw();
+  if(!reduce){curve.classList.add('draw');curve.addEventListener('animationend',()=>curve.classList.remove('draw'),{once:true});setTimeout(()=>{ready=true;loop();},1700);}
+  else setPlaying(false);
+
+  // screenshot view switchers
+  document.querySelectorAll('.browser').forEach(b=>{const btns=b.querySelectorAll('.views button'), imgs=b.querySelectorAll('.screen img');
+    btns.forEach(btn=>btn.addEventListener('click',()=>{const i=+btn.dataset.i;btns.forEach(x=>x.setAttribute('aria-pressed',String(x===btn)));imgs.forEach((im,j)=>im.classList.toggle('on',j===i));}));});
+
+  // header: progress bar, border, active section
+  const head=document.getElementById('head'), prog=document.getElementById('progress');
+  function onScroll(){const h=document.documentElement;const p=h.scrollTop/Math.max(1,h.scrollHeight-h.clientHeight);prog.style.transform='scaleX('+p.toFixed(4)+')';head.classList.toggle('scrolled',h.scrollTop>24);}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  const links=[...document.querySelectorAll('.nav a')];
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.setAttribute('aria-current',String(a.getAttribute('href')==='#'+e.target.id)));}});},{rootMargin:'-45% 0px -50% 0px'});
+  ['work','models','experience','contact'].forEach(id=>spy.observe(document.getElementById(id)));
+
+  // contact band: drifting curve
+  const bc1=document.getElementById('bc1'), bc2=document.getElementById('bc2'), band=document.getElementById('contact');
+  function bandPath(t,amp,shift){let d='';for(let i=0;i<=160;i++){const u=-2.4+4.8*i/160;const a=-5+1.5*Math.sin(t*0.2+shift),c=4+1.2*Math.sin(t*0.17+shift);const y=u**5+a*u**3+0.6*Math.sin(t*0.23)*u**2+c*u;const X=i/160*1200,Y=240-y*amp;d+=(i?'L':'M')+X.toFixed(1)+' '+Math.max(-50,Math.min(470,Y)).toFixed(1)+' ';}return d;}
+  let bandOn=false,braf=0,bt0=performance.now();
+  function bandTick(ts){const t=(ts-bt0)/1000;bc1.setAttribute('d',bandPath(t,22,0));bc2.setAttribute('d',bandPath(t+3,14,1.7));if(bandOn)braf=requestAnimationFrame(bandTick);}
+  bandTick(performance.now());
+  if(!reduce)new IntersectionObserver(es=>{bandOn=es[0].isIntersecting;if(bandOn)braf=requestAnimationFrame(bandTick);else cancelAnimationFrame(braf);}).observe(band);
+
+  // local time in Heilbronn
+  const clock=document.getElementById('clock');
+  const tf=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',hour:'2-digit',minute:'2-digit'});
+  const tick2=()=>{clock.textContent=tf.format(new Date());};tick2();setInterval(tick2,15000);
+
+  // living page background: drifting graph paper, morphing curves with root markers, glows, cursor light
+  (function(){
+    const cv=document.getElementById('bg'), ctx=cv.getContext('2d'), root=document.documentElement;
+    const probeEl=document.createElement('span');probeEl.style.display='none';document.body.appendChild(probeEl);
+    const toRGB=name=>{probeEl.style.color=getComputedStyle(root).getPropertyValue(name).trim();const m=getComputedStyle(probeEl).color.match(/[\d.]+/g)||[0,0,0];return m.slice(0,3).map(Number);};
+    const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';
+    let C={},dark=false,Wv=0,Hv=0,dpr=1;
+    function colors(){C={plot:toRGB('--plot'),marker:toRGB('--marker'),grid:toRGB('--grid'),ink:toRGB('--ink'),paper:toRGB('--paper')};const p=C.paper;dark=(0.2126*p[0]+0.7152*p[1]+0.0722*p[2])<128;if(typeof tintPackets==='function')tintPackets();}
+    function size(){dpr=Math.min(1.5,window.devicePixelRatio||1);Wv=innerWidth;Hv=innerHeight;cv.width=Math.round(Wv*dpr);cv.height=Math.round(Hv*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
+    let mx=-1e4,my=-1e4,smx=-1e4,smy=-1e4;
+    addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(smx<-1e3){smx=mx;smy=my;}},{passive:true});
+    document.addEventListener('pointerleave',()=>{mx=my=-1e4;});
+    const curves=[{base:.18,rate:.22,amp:22,ph:0,w:2.2},{base:.52,rate:.38,amp:16,ph:2.1,w:1.6},{base:.86,rate:.55,amp:26,ph:4.3,w:2}];
+    const packets=[];for(let i=0;i<16;i++)packets.push({h:i%3!==0,lane:1+Math.floor(Math.random()*16),v:.03+Math.random()*.05,o:Math.random(),dir:Math.random()<.5?1:-1,c:null});
+    const tintPackets=()=>packets.forEach((k,i)=>{k.c=i%4===0?C.marker:C.plot;});
+    function glow(x,y,r,c,a){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,rgba(c,a));g.addColorStop(1,rgba(c,0));ctx.fillStyle=g;ctx.fillRect(x-r,y-r,2*r,2*r);}
+    function render(ts){
+      const t=ts/1000, sc=scrollY, M=Math.max(Wv,Hv);
+      ctx.clearRect(0,0,Wv,Hv);
+      // soft glows that wander and drift with scroll
+      glow(Wv*(.78+.14*Math.sin(t*.13)), Hv*(.25+.18*Math.cos(t*.11)), M*.55, C.plot, dark?.38:.26);
+      glow(Wv*(.14+.12*Math.cos(t*.09)), Hv*(.75+.15*Math.sin(t*.12)), M*.42, C.marker, dark?.14:.34);
+      glow(Wv*(.45+.25*Math.sin(t*.07+1)), Hv*(.5+.3*Math.cos(t*.05)), M*.34, C.plot, dark?.18:.12);
+      // cursor light
+      if(mx>-1e3){smx+=(mx-smx)*.12;smy+=(my-smy)*.12;glow(smx,smy,300,C.plot,dark?.28:.20);}
+      // graph paper, drifting slowly
+      const cell=56, ox=-((t*5)%cell), oy=-((t*2.5+sc*.25)%cell);
+      ctx.lineWidth=1;
+      for(let pass=0;pass<2;pass++){
+        ctx.beginPath();
+        let i=0;
+        for(let x=ox;x<Wv+cell;x+=cell,i++){const major=((i+Math.floor((t*5)/cell))%4)===0;if((pass===1)!==major)continue;ctx.moveTo(Math.round(x)+.5,0);ctx.lineTo(Math.round(x)+.5,Hv);}
+        i=0;
+        for(let y=oy;y<Hv+cell;y+=cell,i++){const major=((i+Math.floor((t*2.5+sc*.25)/cell))%4)===0;if((pass===1)!==major)continue;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(Wv,Math.round(y)+.5);}
+        ctx.strokeStyle=rgba(C.ink,pass?(dark?.10:.12):(dark?.05:.06));ctx.stroke();
+      }
+      // data packets travelling along the grid lines
+      for(const k of packets){
+        const prog=((t*k.v+k.o)%1+1)%1;
+        let x,y,tx,ty;
+        if(k.h){const gy=oy+cell*k.lane;y=gy;x=prog*(Wv+200)-100;tx=x-60*k.dir;ty=y;if(k.dir<0){x=Wv-x;tx=x+60;}}
+        else{const gx=ox+cell*k.lane;x=gx;y=prog*(Hv+200)-100;tx=x;ty=y-60;}
+        if(x<-80||x>Wv+80||y<-80||y>Hv+80)continue;
+        const g=ctx.createLinearGradient(tx,ty,x,y);g.addColorStop(0,rgba(k.c,0));g.addColorStop(1,rgba(k.c,dark?.7:.55));
+        ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();
+        ctx.fillStyle=rgba(k.c,dark?.95:.85);ctx.beginPath();ctx.arc(x,y,2.6,0,6.283);ctx.fill();
+      }
+      // grid intersections light up near the cursor
+      if(mx>-1e3){const R=200;ctx.fillStyle=rgba(C.plot,1);
+        for(let x=ox;x<Wv+cell;x+=cell)for(let y=oy;y<Hv+cell;y+=cell){const d=Math.hypot(x-smx,y-smy);if(d<R){ctx.globalAlpha=(1-d/R)*(dark?.8:.55);ctx.beginPath();ctx.arc(x,y,1.8,0,6.283);ctx.fill();}}
+        ctx.globalAlpha=1;}
+      // morphing curves with their real roots marked
+      for(const cu of curves){
+        const span=Hv+260, by=((cu.base*Hv - sc*cu.rate)%span+span)%span-130;
+        const a=-5+1.8*Math.sin(t*.21+cu.ph), b=1.1*Math.sin(t*.17+cu.ph*1.3), c=4+1.6*Math.sin(t*.15+cu.ph*.7), d=.8*Math.sin(t*.19+cu.ph);
+        const p=u=>u**5+a*u**3+b*u**2+c*u+d;
+        ctx.beginPath();let prev=null,roots=[];
+        for(let i=0;i<=220;i++){const u=-2.45+4.9*i/220, y=p(u), X=i/220*Wv, Y=by-y*cu.amp;
+          ctx[i?'lineTo':'moveTo'](X,Math.max(-200,Math.min(Hv+200,Y)));
+          if(prev&&prev.y*y<0){const f0=prev.y/(prev.y-y);roots.push(prev.X+(X-prev.X)*f0);}prev={y,X};}
+        ctx.strokeStyle=rgba(C.plot,dark?.6:.5);ctx.lineWidth=cu.w;ctx.stroke();
+        ctx.beginPath();ctx.moveTo(0,by);ctx.lineTo(Wv,by);ctx.strokeStyle=rgba(C.ink,dark?.14:.12);ctx.lineWidth=1;ctx.stroke();
+        for(const rx of roots){ctx.beginPath();ctx.arc(rx,by,4.5,0,6.283);ctx.fillStyle=rgba(C.marker,dark?.85:.9);ctx.fill();ctx.lineWidth=1;ctx.strokeStyle=rgba(C.ink,dark?.25:.35);ctx.stroke();}
+      }
+    }
+    let raf=0,last=0;
+    function loop(ts){raf=requestAnimationFrame(loop);if(ts-last<33)return;last=ts;render(ts);}
+    function start(){cancelAnimationFrame(raf);if(reduce||document.hidden){render(performance.now());return;}raf=requestAnimationFrame(loop);}
+    colors();size();start();
+    addEventListener('resize',()=>{size();if(reduce)render(performance.now());});
+    if(reduce)addEventListener('scroll',()=>render(performance.now()),{passive:true});
+    document.addEventListener('visibilitychange',start);
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{colors();render(performance.now());});
+    new MutationObserver(()=>{colors();render(performance.now());}).observe(root,{attributes:true,attributeFilter:['data-theme']});
+  })();
+
+  // copy email
+  const copy=document.getElementById('copy'), label=document.getElementById('copyLabel'), email=document.getElementById('email');
+  copy.addEventListener('click',()=>{
+    const done=()=>{label.textContent='Copied';setTimeout(()=>label.textContent='Copy address',1800);};
+    const fallback=()=>{const s=getSelection(),r=document.createRange();r.selectNodeContents(email);s.removeAllRanges();s.addRange(r);label.textContent='Selected. Press Ctrl+C';setTimeout(()=>label.textContent='Copy address',2600);};
+    try{navigator.clipboard.writeText('amr.alkhatib@tum.de').then(done,fallback);}catch(e){fallback();}
+  });
+})();
+</script>
+</body>
+</html>
