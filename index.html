@@ -296,6 +296,11 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 @media (max-width:420px){.skill{grid-template-columns:minmax(0,1fr);gap:2px}}
 .skill b{font-weight:500}
 .skill span{color:var(--ink-2)}
+/* paragraphs are justified like the CV; hyphenation (follows the page language) keeps the word spacing even.
+   Phones keep left-aligned text, where a narrow column would leave wide gaps. */
+@media (min-width:600px){
+  .lede,.section-head p,.summary,.block p,.case .small,.desc,.edu p,.caption,.contact-main > p,.form-done p{text-align:justify;text-justify:inter-word;-webkit-hyphens:auto;hyphens:auto;hyphenate-limit-chars:6 3 3}
+}
 
 /* contact */
 .contact{position:relative;z-index:1;background:linear-gradient(to bottom,transparent 0,color-mix(in srgb,var(--band) 22%,transparent) 90px,color-mix(in srgb,var(--band) 70%,transparent) 190px,var(--band) 280px);color:var(--band-fg);overflow:hidden;scroll-margin-top:-190px}
