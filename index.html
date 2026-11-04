@@ -56,7 +56,7 @@ svg{display:block}
 .wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 @media (min-width:900px){.wrap{padding-left:max(40px,env(safe-area-inset-left,0px));padding-right:max(40px,env(safe-area-inset-right,0px))}}
 .math{font-family:var(--math);font-style:italic}
-#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#bg,#bgLines{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 main{position:relative;z-index:1}
 .section-head h2,.cv h2{position:relative}
 .ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -80,11 +80,6 @@ main{position:relative;z-index:1}
 .lang button:hover{color:var(--ink)}
 .lang button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 [hidden]{display:none!important}
-/* readability: a soft, feathered patch of paper behind text blocks so the living background fades out where you read */
-.clear{position:relative;isolation:isolate}
-.section-head.clear{width:fit-content;max-width:100%}
-.clear::before{content:"";position:absolute;inset:-24px -32px;z-index:-1;border-radius:36px;background:var(--paper);opacity:.84;filter:blur(22px);pointer-events:none}
-@media (max-width:900px){.clear::before{inset:-14px -12px;border-radius:24px;filter:blur(14px)}}
 /* sections slide in from the side as they scroll into view */
 main{overflow-x:clip}
 .js .reveal{opacity:0;translate:var(--rx,-56px) 0;transition:opacity .8s ease,translate 1.05s cubic-bezier(.16,1,.3,1);transition-delay:var(--rd,0s)}
@@ -405,7 +400,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 <main id="top">
   <section class="hero">
     <div class="wrap">
-      <div class="intro clear reveal">
+      <div class="intro reveal">
         <h1 data-i18n="hero.h1">I build tools that make complicated systems easy to see.</h1>
         <p class="lede" data-i18n="hero.lede">I study Information Engineering at TUM in Heilbronn and come from applied mathematics. I like turning real systems into models, and models into software people can use: cache hierarchies, food-truck fleets, a pitch in front of a jury.</p>
         <div class="actions">
@@ -443,7 +438,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 
   <section class="section" id="work">
     <div class="wrap">
-      <div class="section-head clear reveal">
+      <div class="section-head reveal">
         <h2 data-i18n="work.h2">Selected work</h2>
         <p data-i18n="work.p">One hackathon prize winner and two products that started as real problems brought by companies to the TUM Business Game. Each preview is a live recreation of the app’s main screen. The buttons open the real apps.</p>
       </div>
@@ -467,7 +462,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
               </div>
             </div>
           </div>
-          <div class="case clear reveal from-right" style="--rd:.12s">
+          <div class="case reveal from-right" style="--rd:.12s">
             <div class="meta"><span class="chip prize" data-i18n="rec.tom">2nd place, TOMFoolery Hackathon at TUM</span><span data-i18n="date.nov25">Nov 2025</span></div>
             <h3>Visually</h3>
             <p class="summary" data-i18n="v.summary">A cache simulator that makes the memory hierarchy visible.</p>
@@ -500,7 +495,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
               </div>
             </div>
           </div>
-          <div class="case clear reveal from-right" style="--rd:.12s">
+          <div class="case reveal from-right" style="--rd:.12s">
             <div class="meta"><span class="chip">TUM Business Game</span><span data-i18n="date.oct26">Oct 2026</span></div>
             <h3>TruckOps</h3>
             <p class="summary" data-i18n="t.summary">Booking and operations software for a corporate food-truck caterer.</p>
@@ -535,7 +530,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
               </div>
             </div>
           </div>
-          <div class="case clear reveal from-right" style="--rd:.12s">
+          <div class="case reveal from-right" style="--rd:.12s">
             <div class="meta"><span class="chip">TUM Business Game</span><span data-i18n="date.oct26">Oct 2026</span></div>
             <h3>PitchRoom</h3>
             <p class="summary" data-i18n="p.summary">Pitch rehearsal that tells you what the jury will hear.</p>
@@ -555,7 +550,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 
   <section class="section models" id="models">
     <div class="wrap">
-      <div class="section-head clear reveal">
+      <div class="section-head reveal">
         <h2 data-i18n="m.h2">Things I’ve modelled</h2>
         <p data-i18n="m.p">Most of my work is a model of a real system, the software around one, or both.</p>
       </div>
@@ -574,7 +569,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 
   <section class="section" id="experience">
     <div class="wrap cv">
-      <div class="clear reveal">
+      <div class="reveal">
         <h2 data-i18n="x.h2">Experience</h2>
         <div class="entries">
           <div class="entry"><span class="when" data-i18n="x.sa.when">Apr – Sep 2026</span><div><h3 data-i18n="x.sa.h3">Student Assistant</h3><p class="org" data-i18n="x.sa.org">TUM Professorship of Strategic Management, Heilbronn</p><p class="desc" data-i18n="x.sa.desc">Built a Python pipeline that extracts and processes executive data for more than 2,000 M&amp;A transactions and computes retention metrics for ongoing research, cutting hours of manual work to minutes. Also ran literature reviews and facilitated seminar sessions.</p></div></div>
@@ -582,7 +577,7 @@ input[type=range]{width:100%;accent-color:var(--plot)}
           <div class="entry"><span class="when" data-i18n="x.fe.when">Oct 2022 – Sep 2023</span><div><h3 data-i18n="x.fe.h3">Front-End Web Developer</h3><p class="org">Xcore Corporation, Swaida</p><p class="desc" data-i18n="x.fe.desc">Worked on more than 15 projects and reviewed 5 more in a front-end team of 10. Introduced shared practices that raised the team’s output by 22% in a quarter.</p></div></div>
         </div>
       </div>
-      <div class="clear reveal from-right" style="--rd:.12s">
+      <div class="reveal from-right" style="--rd:.12s">
         <h2 data-i18n="e.h2">Education</h2>
         <div class="entries">
           <div class="edu"><span class="when" data-i18n="e.tum.when">Since Oct 2025</span><h3>B.Sc. Information Engineering</h3><p data-i18n="e.tum.p">Technical University of Munich, Heilbronn. Specialisation in cyber-physical systems.</p></div>
@@ -887,15 +882,32 @@ input[type=range]{width:100%;accent-color:var(--plot)}
   const tf=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Berlin',hour:'2-digit',minute:'2-digit'});
   const tick2=()=>{const c=document.getElementById('clock');if(c)c.textContent=tf.format(new Date());};tick2();setInterval(tick2,15000);I18N.on(tick2);
 
-  // living page background: drifting graph paper, morphing curves with root markers, glows, cursor light
+  // living page background: drifting graph paper, morphing curves with root markers, glows, cursor light.
+  // The sharp moving parts (curves, dots, packets) are drawn on their own layer and fade out wherever they pass behind text.
   (function(){
     const cv=document.getElementById('bg'), ctx=cv.getContext('2d'), root=document.documentElement;
+    const lc=document.createElement('canvas'), lx=lc.getContext('2d');          // lines layer, its own canvas so the browser composites it
+    lc.id='bgLines';lc.setAttribute('aria-hidden','true');cv.after(lc);
+    const mk=document.createElement('canvas'), mx2=mk.getContext('2d');         // low-res text mask, upscaled = soft edges
+    const MS=8;
     const probeEl=document.createElement('span');probeEl.style.display='none';document.body.appendChild(probeEl);
     const toRGB=name=>{probeEl.style.color=getComputedStyle(root).getPropertyValue(name).trim();const m=getComputedStyle(probeEl).color.match(/[\d.]+/g)||[0,0,0];return m.slice(0,3).map(Number);};
     const rgba=(c,a)=>'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';
     let C={},dark=false,Wv=0,Hv=0,dpr=1;
     function colors(){C={plot:toRGB('--plot'),marker:toRGB('--marker'),grid:toRGB('--grid'),ink:toRGB('--ink'),paper:toRGB('--paper')};const p=C.paper;dark=(0.2126*p[0]+0.7152*p[1]+0.0722*p[2])<128;if(typeof tintPackets==='function')tintPackets();}
-    function size(){dpr=Math.min(1.5,window.devicePixelRatio||1);Wv=innerWidth;Hv=innerHeight;cv.width=Math.round(Wv*dpr);cv.height=Math.round(Hv*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}
+    function size(){dpr=Math.min(1.5,window.devicePixelRatio||1);Wv=innerWidth;Hv=innerHeight;
+      for(const [c,x] of [[cv,ctx],[lc,lx]]){c.width=Math.round(Wv*dpr);c.height=Math.round(Hv*dpr);x.setTransform(dpr,0,0,dpr,0,0);}
+      mk.width=Math.ceil(Wv/MS)+2;mk.height=Math.ceil(Hv/MS)+2;}
+    // text the lines should stay out of
+    const textEls=[...document.querySelectorAll('.site-head .brand,.site-head .head-right,main h1,main h2,main h3,main p,main .when,main .meta,main .stack,main .actions,main .ctas,main .skill')].filter(el=>!el.closest('.explorer,.mock,.browser'));
+    const R=document.createRange();
+    function textMask(){
+      mx2.setTransform(1,0,0,1,0,0);mx2.clearRect(0,0,mk.width,mk.height);mx2.setTransform(1/MS,0,0,1/MS,0,0);
+      const boxes=[];
+      for(const el of textEls){const o=el.getBoundingClientRect();if(o.bottom<-40||o.top>Hv+40||!o.width)continue;R.selectNodeContents(el);const r=R.getBoundingClientRect();if(r.width)boxes.push(r);}
+      mx2.fillStyle='rgba(0,0,0,.5)';for(const r of boxes)mx2.fillRect(r.left-26,r.top-20,r.width+52,r.height+40);
+      mx2.fillStyle='rgba(0,0,0,.92)';for(const r of boxes)mx2.fillRect(r.left-10,r.top-8,r.width+20,r.height+16);
+    }
     let mx=-1e4,my=-1e4,smx=-1e4,smy=-1e4;
     addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(smx<-1e3){smx=mx;smy=my;}},{passive:true});
     document.addEventListener('pointerleave',()=>{mx=my=-1e4;});
@@ -905,13 +917,12 @@ input[type=range]{width:100%;accent-color:var(--plot)}
     function glow(x,y,r,c,a){const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,rgba(c,a));g.addColorStop(1,rgba(c,0));ctx.fillStyle=g;ctx.fillRect(x-r,y-r,2*r,2*r);}
     function render(ts){
       const t=ts/1000, sc=scrollY, M=Math.max(Wv,Hv);
-      ctx.clearRect(0,0,Wv,Hv);
+      ctx.clearRect(0,0,Wv,Hv);lx.clearRect(0,0,Wv,Hv);
       // soft glows that wander and drift with scroll
-      glow(Wv*(.78+.14*Math.sin(t*.13)), Hv*(.25+.18*Math.cos(t*.11)), M*.55, C.plot, dark?.38:.26);
-      glow(Wv*(.14+.12*Math.cos(t*.09)), Hv*(.75+.15*Math.sin(t*.12)), M*.42, C.marker, dark?.14:.34);
-      glow(Wv*(.45+.25*Math.sin(t*.07+1)), Hv*(.5+.3*Math.cos(t*.05)), M*.34, C.plot, dark?.18:.12);
-      // cursor light
-      if(mx>-1e3){smx+=(mx-smx)*.12;smy+=(my-smy)*.12;glow(smx,smy,300,C.plot,dark?.28:.20);}
+      glow(Wv*(.78+.14*Math.sin(t*.13)), Hv*(.25+.18*Math.cos(t*.11)), M*.55, C.plot, dark?.36:.22);
+      glow(Wv*(.14+.12*Math.cos(t*.09)), Hv*(.75+.15*Math.sin(t*.12)), M*.42, C.marker, dark?.13:.28);
+      glow(Wv*(.45+.25*Math.sin(t*.07+1)), Hv*(.5+.3*Math.cos(t*.05)), M*.34, C.plot, dark?.17:.11);
+      if(mx>-1e3){smx+=(mx-smx)*.12;smy+=(my-smy)*.12;glow(smx,smy,300,C.plot,dark?.26:.18);}
       // graph paper, drifting slowly
       const cell=56, ox=-((t*5)%cell), oy=-((t*2.5+sc*.25)%cell);
       ctx.lineWidth=1;
@@ -923,34 +934,36 @@ input[type=range]{width:100%;accent-color:var(--plot)}
         for(let y=oy;y<Hv+cell;y+=cell,i++){const major=((i+Math.floor((t*2.5+sc*.25)/cell))%4)===0;if((pass===1)!==major)continue;ctx.moveTo(0,Math.round(y)+.5);ctx.lineTo(Wv,Math.round(y)+.5);}
         ctx.strokeStyle=rgba(C.ink,pass?(dark?.10:.12):(dark?.05:.06));ctx.stroke();
       }
-      // data packets travelling along the grid lines
+      // ---- lines layer ----
       for(const k of packets){
         const prog=((t*k.v+k.o)%1+1)%1;
         let x,y,tx,ty;
         if(k.h){const gy=oy+cell*k.lane;y=gy;x=prog*(Wv+200)-100;tx=x-60*k.dir;ty=y;if(k.dir<0){x=Wv-x;tx=x+60;}}
         else{const gx=ox+cell*k.lane;x=gx;y=prog*(Hv+200)-100;tx=x;ty=y-60;}
         if(x<-80||x>Wv+80||y<-80||y>Hv+80)continue;
-        const g=ctx.createLinearGradient(tx,ty,x,y);g.addColorStop(0,rgba(k.c,0));g.addColorStop(1,rgba(k.c,dark?.7:.55));
-        ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(tx,ty);ctx.lineTo(x,y);ctx.stroke();
-        ctx.fillStyle=rgba(k.c,dark?.95:.85);ctx.beginPath();ctx.arc(x,y,2.6,0,6.283);ctx.fill();
+        const g=lx.createLinearGradient(tx,ty,x,y);g.addColorStop(0,rgba(k.c,0));g.addColorStop(1,rgba(k.c,dark?.7:.55));
+        lx.strokeStyle=g;lx.lineWidth=2;lx.beginPath();lx.moveTo(tx,ty);lx.lineTo(x,y);lx.stroke();
+        lx.fillStyle=rgba(k.c,dark?.95:.85);lx.beginPath();lx.arc(x,y,2.6,0,6.283);lx.fill();
       }
-      // grid intersections light up near the cursor
-      if(mx>-1e3){const R=200;ctx.fillStyle=rgba(C.plot,1);
-        for(let x=ox;x<Wv+cell;x+=cell)for(let y=oy;y<Hv+cell;y+=cell){const d=Math.hypot(x-smx,y-smy);if(d<R){ctx.globalAlpha=(1-d/R)*(dark?.8:.55);ctx.beginPath();ctx.arc(x,y,1.8,0,6.283);ctx.fill();}}
-        ctx.globalAlpha=1;}
-      // morphing curves with their real roots marked
+      if(mx>-1e3){const Rr=200;lx.fillStyle=rgba(C.plot,1);
+        for(let x=ox;x<Wv+cell;x+=cell)for(let y=oy;y<Hv+cell;y+=cell){const d=Math.hypot(x-smx,y-smy);if(d<Rr){lx.globalAlpha=(1-d/Rr)*(dark?.8:.55);lx.beginPath();lx.arc(x,y,1.8,0,6.283);lx.fill();}}
+        lx.globalAlpha=1;}
       for(const cu of curves){
         const span=Hv+260, by=((cu.base*Hv - sc*cu.rate)%span+span)%span-130;
         const a=-5+1.8*Math.sin(t*.21+cu.ph), b=1.1*Math.sin(t*.17+cu.ph*1.3), c=4+1.6*Math.sin(t*.15+cu.ph*.7), d=.8*Math.sin(t*.19+cu.ph);
         const p=u=>u**5+a*u**3+b*u**2+c*u+d;
-        ctx.beginPath();let prev=null,roots=[];
+        lx.beginPath();let prev=null,roots=[];
         for(let i=0;i<=220;i++){const u=-2.45+4.9*i/220, y=p(u), X=i/220*Wv, Y=by-y*cu.amp;
-          ctx[i?'lineTo':'moveTo'](X,Math.max(-200,Math.min(Hv+200,Y)));
+          lx[i?'lineTo':'moveTo'](X,Math.max(-200,Math.min(Hv+200,Y)));
           if(prev&&prev.y*y<0){const f0=prev.y/(prev.y-y);roots.push(prev.X+(X-prev.X)*f0);}prev={y,X};}
-        ctx.strokeStyle=rgba(C.plot,dark?.52:.44);ctx.lineWidth=cu.w;ctx.stroke();
-        ctx.beginPath();ctx.moveTo(0,by);ctx.lineTo(Wv,by);ctx.strokeStyle=rgba(C.ink,dark?.14:.12);ctx.lineWidth=1;ctx.stroke();
-        for(const rx of roots){ctx.beginPath();ctx.arc(rx,by,4.5,0,6.283);ctx.fillStyle=rgba(C.marker,dark?.85:.9);ctx.fill();ctx.lineWidth=1;ctx.strokeStyle=rgba(C.ink,dark?.25:.35);ctx.stroke();}
+        lx.strokeStyle=rgba(C.plot,dark?.6:.5);lx.lineWidth=cu.w;lx.stroke();
+        lx.beginPath();lx.moveTo(0,by);lx.lineTo(Wv,by);lx.strokeStyle=rgba(C.ink,dark?.14:.12);lx.lineWidth=1;lx.stroke();
+        for(const rx of roots){lx.beginPath();lx.arc(rx,by,4.5,0,6.283);lx.fillStyle=rgba(C.marker,dark?.85:.9);lx.fill();lx.lineWidth=1;lx.strokeStyle=rgba(C.ink,dark?.25:.35);lx.stroke();}
       }
+      // fade the lines out behind text, then lay them over the paper
+      textMask();
+      lx.save();lx.setTransform(1,0,0,1,0,0);lx.globalCompositeOperation='destination-out';lx.imageSmoothingEnabled=true;lx.imageSmoothingQuality='low';
+      lx.drawImage(mk,0,0,mk.width*MS*dpr,mk.height*MS*dpr);lx.restore();
     }
     let raf=0,last=0;
     function loop(ts){raf=requestAnimationFrame(loop);if(ts-last<33)return;last=ts;render(ts);}
