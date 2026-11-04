@@ -137,6 +137,77 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 .screen{position:relative;aspect-ratio:8/5;max-width:100%;background:var(--grid)}
 .screen img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease}
 .screen img.on{opacity:1}
+.screen{container-type:inline-size}
+.mock{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;font-family:var(--body);line-height:1.3}
+.mock small,.mock .mt-sub{letter-spacing:.06em}
+/* Visually preview */
+.mv{background:#0d1117;color:#e6e9f0;padding:3cqw 3.4cqw;gap:2.2cqw}
+.mv-top{display:flex;justify-content:space-between;align-items:baseline;gap:2cqw}
+.mv-logo{font-weight:700;font-size:3.4cqw}
+.mv-tag{font-size:1.8cqw;color:#8b93a7}
+.mv-body{flex:1;display:grid;grid-template-columns:1.55fr 1fr;gap:2.2cqw;min-height:0}
+.mv-grid{display:grid;grid-template-rows:repeat(8,1fr);gap:.7cqw;min-height:0}
+.mv-set{display:grid;grid-template-columns:7cqw 1fr auto;align-items:center;gap:1.4cqw;background:#161b24;border:1px solid #232a37;border-radius:.9cqw;padding:0 1.6cqw;font-size:1.75cqw;transition:background .35s,border-color .35s}
+.mv-set b{color:#8b93a7;font-weight:500}
+.mv-set .tg{font-family:ui-monospace,Menlo,Consolas,monospace;color:#c9d1e3}
+.mv-set .st{color:#6b7385;font-weight:600}
+.mv-set.hit{background:rgba(52,199,120,.16);border-color:#34c778}.mv-set.hit .st{color:#34c778}
+.mv-set.miss{background:rgba(240,80,80,.16);border-color:#f05050}.mv-set.miss .st{color:#f07070}
+.mv-side{display:grid;grid-template-rows:repeat(3,1fr);gap:1.1cqw;min-height:0}
+.mv-stat{background:#161b24;border:1px solid #232a37;border-radius:1.2cqw;padding:1.2cqw 1.8cqw;display:flex;flex-direction:column;justify-content:center;gap:.3cqw;min-height:0}
+.mv-stat small{font-size:1.5cqw;color:#8b93a7;font-weight:600}
+.mv-stat strong{font-size:3.4cqw;font-weight:700;font-variant-numeric:tabular-nums}
+.mv-stat em{font-style:normal;font-size:1.7cqw;font-weight:700}
+.mv-waverow{display:grid;grid-template-columns:6cqw 1fr;gap:1.4cqw;align-items:center}
+.mv-waverow span{font-size:1.3cqw;line-height:1.75;color:#8b93a7;font-weight:600}
+.mv-wave{width:100%;height:6.4cqw;display:block}
+/* TruckOps preview */
+.mt{background:#17110e;color:#f3e9df;padding:3cqw 3.4cqw;gap:2.4cqw}
+.mt-head{display:flex;justify-content:space-between;align-items:center}
+.mt-logo{font-family:Georgia,"Times New Roman",serif;font-weight:700;font-size:3.3cqw}
+.mt-pill{background:#e8913a;color:#1b120c;font-weight:700;font-size:1.7cqw;padding:.7cqw 1.6cqw;border-radius:99px}
+.mt-body{flex:1;display:grid;grid-template-columns:1.12fr 1fr;gap:2.4cqw;min-height:0}
+.mt-left{display:flex;flex-direction:column;gap:2cqw;min-width:0}
+.mt-event strong{display:block;font-family:Georgia,"Times New Roman",serif;font-size:3.5cqw;line-height:1.1}
+.mt-event small{display:block;color:#bfae9f;font-size:1.8cqw;margin-top:.7cqw}
+.mt-sub{font-size:1.45cqw;color:#a8978a;font-weight:700;margin-bottom:.9cqw}
+.mt-chips{display:flex;flex-wrap:wrap;gap:.8cqw}
+.mt-chip{font-size:1.65cqw;padding:.6cqw 1.3cqw;border-radius:99px;background:#2a1f19;border:1px solid #3d2d23;opacity:0;transform:translateY(5px);transition:opacity .35s,transform .35s}
+.mt-chip.in{opacity:1;transform:none}
+.mt-chip.warn{background:rgba(232,145,58,.14);border-color:rgba(232,145,58,.55);color:#f6c48f}
+.mt-quote{background:#221914;border:1px solid #3a2a20;border-radius:1.6cqw;padding:2cqw 2.2cqw;display:flex;flex-direction:column;gap:1cqw;font-size:1.75cqw;min-height:0}
+.mt-quote h4{margin:0 0 .4cqw;font-family:Georgia,"Times New Roman",serif;font-size:2.4cqw;font-weight:700;color:#f3e9df}
+.mt-row{display:flex;justify-content:space-between;gap:1cqw;color:#e6d8ca;font-variant-numeric:tabular-nums}
+.mt-row span:first-child{color:#bfae9f}
+.mt-total{margin-top:auto;border-top:1px solid #3a2a20;padding-top:1.3cqw;display:flex;justify-content:space-between;align-items:baseline}
+.mt-total span{color:#bfae9f;font-weight:600}
+.mt-total strong{font-family:Georgia,"Times New Roman",serif;font-size:3.6cqw;font-variant-numeric:tabular-nums}
+/* PitchRoom preview */
+.mp{background:#0c0c0e;color:#f2efe9;padding:3cqw 3.4cqw;gap:2.4cqw}
+.mp-head{display:flex;justify-content:space-between;align-items:center}
+.mp-brand{font-family:var(--math);font-style:italic;font-size:2.9cqw}
+.mp-brand::before{content:"";display:inline-block;width:1.1cqw;height:1.1cqw;border-radius:50%;background:#ec6a52;margin-right:1cqw;vertical-align:.25em}
+.mp-take{font-size:1.6cqw;border:1px solid #2b2b30;border-radius:99px;padding:.6cqw 1.6cqw;color:#bdb8ae}
+.mp-body{flex:1;display:grid;grid-template-columns:auto minmax(0,1fr);gap:3cqw;align-items:center;min-height:0}
+.mp-rings{display:flex;gap:1.8cqw}
+.mp-ring{position:relative;width:13cqw;height:13cqw}
+.mp-ring svg{width:100%;height:100%;transform:rotate(-90deg);display:block}
+.mp-ring circle{fill:none;stroke-width:6}
+.mp-ring .bg{stroke:#26262b}
+.mp-ring .fg{stroke:#ec6a52;stroke-linecap:round;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)}
+.mp-ring div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.mp-ring strong{font-size:3.5cqw;font-weight:500;font-variant-numeric:tabular-nums}
+.mp-ring small{font-size:1.2cqw;color:#8f8a80}
+.mp-right{display:flex;flex-direction:column;gap:1.6cqw;min-width:0}
+.mp-quote{font-family:var(--math);font-style:italic;font-size:2.7cqw;line-height:1.22;margin:0}
+.mp-tr{font-size:1.75cqw;line-height:1.65;color:#d9d4cb;background:#151518;border:1px solid #26262b;border-radius:1.4cqw;padding:1.5cqw 2cqw;min-height:14cqw}
+.mp-tr .w{opacity:.12;transition:opacity .25s}
+.mp-tr .w.in{opacity:1}
+.mp-tr mark{background:rgba(241,199,91,.16);color:#f1c75b;border:1px solid rgba(241,199,91,.5);border-radius:.8cqw;padding:0 .6cqw}
+.mp-structure{display:grid;grid-template-columns:repeat(6,1fr);gap:.8cqw}
+.mp-seg{font-size:1.55cqw;color:#6f6b64;padding-top:1cqw;border-top:.45cqw solid #26262b;transition:border-color .4s,color .4s}
+.mp-seg.on{border-top-color:#7fb8a4;color:#f2efe9}
+.mp-seg.miss{border-top-color:#6b2f28;color:#c0786a}
 .case{display:flex;flex-direction:column;gap:18px;min-width:0}
 .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-2)}
 .chip{font-weight:500;color:var(--ink);padding:5px 10px;border-radius:5px;border:1px solid var(--rule);background:var(--surface)}
@@ -305,17 +376,26 @@ input[type=range]{width:100%;accent-color:var(--plot)}
     <div class="wrap">
       <div class="section-head">
         <h2>Selected work</h2>
-        <p>One hackathon prize winner and two products that started as real problems brought by companies to the TUM Business Game.</p>
+        <p>One hackathon prize winner and two products that started as real problems brought by companies to the TUM Business Game. Each preview is a live recreation of the app’s main screen. The buttons open the real apps.</p>
       </div>
       <div class="projects">
 
         <article class="project">
           <div class="browser">
-            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">visually-ppfe.vercel.app</span>
-              <span class="views" role="group" aria-label="Visually views"><button type="button" aria-pressed="true" data-i="0">Results</button><button type="button" aria-pressed="false" data-i="1">Hierarchy</button></span></div>
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">visually-ppfe.vercel.app</span></div>
             <div class="screen">
-              <img class="on" src="shots/visually-charts.jpg" alt="Visually: hit rate over time and stacked power chart after a simulation run" width="800" height="500">
-              <img src="shots/visually-arch.jpg" alt="Visually: system architecture overview from CPU core to L1 cache" width="800" height="500" loading="lazy">
+              <div class="mock mv" id="mockV" role="img" aria-label="Visually preview: an L1 cache filling set by set, with hit rate, AMAT and hit and miss signals">
+                <div class="mv-top"><span class="mv-logo">Visually.</span><span class="mv-tag">L1 cache, 8 sets, 16 B blocks, direct mapped</span></div>
+                <div class="mv-body">
+                  <div class="mv-grid"></div>
+                  <div class="mv-side">
+                    <div class="mv-stat"><small>HIT RATE</small><strong id="vHit">0%</strong></div>
+                    <div class="mv-stat"><small>AMAT</small><strong id="vAmat">1.0 cycles</strong></div>
+                    <div class="mv-stat"><small>LAST ACCESS</small><strong id="vAddr">0x000</strong><em id="vRes">&nbsp;</em></div>
+                  </div>
+                </div>
+                <div class="mv-waverow"><span>CLK<br>HIT<br>MISS</span><svg class="mv-wave" viewBox="0 0 400 60" preserveAspectRatio="none"></svg></div>
+              </div>
             </div>
           </div>
           <div class="case">
@@ -336,11 +416,19 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 
         <article class="project">
           <div class="browser">
-            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">truckops03.lovable.app</span>
-              <span class="views" role="group" aria-label="TruckOps views"><button type="button" aria-pressed="true" data-i="0">Booking site</button><button type="button" aria-pressed="false" data-i="1">Back office</button></span></div>
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">truckops03.lovable.app</span></div>
             <div class="screen">
-              <img class="on" src="shots/truckops-hero.jpg" alt="TruckOps landing page: Street food, served corporate" width="800" height="500" loading="lazy">
-              <img src="shots/truckops-admin.jpg" alt="TruckOps back office dashboard with upcoming events, revenue and approvals" width="800" height="500" loading="lazy">
+              <div class="mock mt" id="mockT" role="img" aria-label="TruckOps preview: live quotes for three example events with matched trucks, rule checks and VAT">
+                <div class="mt-head"><span class="mt-logo">TruckOps</span><span class="mt-pill" id="tPkg">Afterwork Party</span></div>
+                <div class="mt-body">
+                  <div class="mt-left">
+                    <div class="mt-event"><strong id="tTitle">&nbsp;</strong><small id="tMeta">&nbsp;</small></div>
+                    <div><div class="mt-sub">CHECKS</div><div class="mt-chips" id="tFlags"></div></div>
+                    <div><div class="mt-sub">MATCHED TRUCKS</div><div class="mt-chips" id="tTrucks"></div></div>
+                  </div>
+                  <div class="mt-quote" id="tQuote"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div class="case">
@@ -360,11 +448,22 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 
         <article class="project">
           <div class="browser">
-            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">pitchroom03.lovable.app</span>
-              <span class="views" role="group" aria-label="PitchRoom views"><button type="button" aria-pressed="true" data-i="0">Report</button><button type="button" aria-pressed="false" data-i="1">Transcript</button></span></div>
+            <div class="browser-bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">pitchroom03.lovable.app</span></div>
             <div class="screen">
-              <img class="on" src="shots/pitchroom-report.jpg" alt="PitchRoom report with delivery and readiness scores and the judge's verdict" width="800" height="500" loading="lazy">
-              <img src="shots/pitchroom-transcript.jpg" alt="PitchRoom transcript with fillers and unclear words marked" width="800" height="500" loading="lazy">
+              <div class="mock mp" id="mockP" role="img" aria-label="PitchRoom preview: a pitch transcript with fillers marked, delivery and readiness scores, and a structure check">
+                <div class="mp-head"><span class="mp-brand">Pitchroom</span><span class="mp-take">Take 3, competition judges</span></div>
+                <div class="mp-body">
+                  <div class="mp-rings">
+                    <div class="mp-ring" data-v="81"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" cx="50" cy="50" r="44"/></svg><div><strong>0</strong><small>DELIVERY</small></div></div>
+                    <div class="mp-ring" data-v="58"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" cx="50" cy="50" r="44"/></svg><div><strong>0</strong><small>READINESS</small></div></div>
+                  </div>
+                  <div class="mp-right">
+                    <p class="mp-quote">“Clear problem and a direct ask. Add your market and team, and cut the two fillers.”</p>
+                    <div class="mp-tr"></div>
+                  </div>
+                </div>
+                <div class="mp-structure"><span class="mp-seg" data-c="1">Problem</span><span class="mp-seg" data-c="1">Solution</span><span class="mp-seg" data-c="0">Market</span><span class="mp-seg" data-c="0">Traction</span><span class="mp-seg" data-c="0">Team</span><span class="mp-seg" data-c="1">Ask</span></div>
+              </div>
             </div>
           </div>
           <div class="case">
@@ -636,6 +735,80 @@ input[type=range]{width:100%;accent-color:var(--plot)}
     document.addEventListener('visibilitychange',start);
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{colors();render(performance.now());});
     new MutationObserver(()=>{colors();render(performance.now());}).observe(root,{attributes:true,attributeFilter:['data-theme']});
+  })();
+
+  // product previews
+  const inView=(el,cb)=>new IntersectionObserver(es=>cb(es[0].isIntersecting),{threshold:.2}).observe(el);
+  (function(){ // Visually: direct-mapped L1, 8 sets, 16-byte blocks
+    const root=document.getElementById('mockV');if(!root)return;
+    const grid=root.querySelector('.mv-grid'),rows=[];
+    for(let k=0;k<8;k++){const r=document.createElement('div');r.className='mv-set';r.innerHTML='<b>Set '+k+'</b><span class="tg">--</span><span class="st">Empty</span>';grid.appendChild(r);rows.push(r);}
+    const trace=[0x100,0x104,0x110,0x120,0x108,0x130,0x150,0x100,0x160,0x114,0x200,0x204,0x170,0x100,0x124,0x300,0x134,0x140,0x154,0x104,0x164,0x110];
+    let tags=Array(8).fill(null),hits=0,n=0,i=0,hist=[];
+    const hitEl=root.querySelector('#vHit'),amat=root.querySelector('#vAmat'),addr=root.querySelector('#vAddr'),res=root.querySelector('#vRes'),wave=root.querySelector('.mv-wave');
+    function drawWave(){const s=400/14;let c='',h='',m='';hist.forEach((v,k)=>{const x=k*s;c+=x+',13 '+x+',3 '+(x+s/2)+',3 '+(x+s/2)+',13 ';h+=x+','+(v?24:34)+' '+(x+s)+','+(v?24:34)+' ';m+=x+','+(v?56:46)+' '+(x+s)+','+(v?56:46)+' ';});
+      wave.innerHTML='<polyline points="'+c+'" fill="none" stroke="#4a8cff" stroke-width="2"/><polyline points="'+h+'" fill="none" stroke="#34c778" stroke-width="2"/><polyline points="'+m+'" fill="none" stroke="#f05050" stroke-width="2"/>';}
+    function step(flash){
+      if(i>=trace.length){i=0;tags=Array(8).fill(null);hits=0;n=0;rows.forEach(r=>{r.querySelector('.tg').textContent='--';r.querySelector('.st').textContent='Empty';});}
+      const a=trace[i++],set=(a>>4)&7,tag=a>>7,hit=tags[set]===tag;if(!hit)tags[set]=tag;n++;if(hit)hits++;
+      const r=rows[set];r.querySelector('.tg').textContent='0x'+tag.toString(16).toUpperCase();r.querySelector('.st').textContent=hit?'Hit':'Miss';
+      if(flash){r.classList.remove('hit','miss');void r.offsetWidth;r.classList.add(hit?'hit':'miss');setTimeout(()=>r.classList.remove('hit','miss'),700);}
+      hitEl.textContent=(hits/n*100).toFixed(1)+'%';amat.textContent=(1+(1-hits/n)*100).toFixed(1)+' cycles';
+      addr.textContent='0x'+a.toString(16).toUpperCase().padStart(3,'0');res.textContent=hit?'Hit, set '+set:'Miss, set '+set;res.style.color=hit?'#34c778':'#f07070';
+      hist.push(hit);if(hist.length>14)hist.shift();drawWave();}
+    for(let k=0;k<7;k++)step(false);
+    if(reduce)return;let timer=0;
+    inView(root,on=>{clearInterval(timer);if(on)timer=setInterval(()=>step(true),900);});
+  })();
+  (function(){ // TruckOps: live quotes for three example events
+    const root=document.getElementById('mockT');if(!root)return;
+    const S=[
+      {pkg:'Afterwork Party',title:'Campus summer party',meta:'26.06.2026, 17:00–23:00, 120 guests, Stuttgart',flags:['Private campus: landowner consent'],trucks:['Curry Up (vegan)','Taco Loco (vegan)','Smokey Joe'],guests:120,extra:0},
+      {pkg:'Custom event',title:'Christmas market',meta:'25.12.2026, 12:00–18:00, 500 guests, Stuttgart',flags:['Public holiday in Baden-Württemberg','Crew rest day required (ArbZG)'],trucks:['Curry Up','Pho Real','Smokey Joe','Taco Loco','Wurst Case Scenario','Espresso Express'],guests:500,extra:350},
+      {pkg:'Afterwork Party',title:'Afterwork on the Marktplatz',meta:'16.07.2026, 17:00–23:00, 90 guests, Heilbronn',flags:['Street-use permit from Stadt Heilbronn','Ends after 22:00 (TA Lärm)'],trucks:['Kebabylon (halal)','Spätzle Shuttle'],guests:90,extra:0}];
+    const eur=new Intl.NumberFormat('de-DE',{style:'currency',currency:'EUR'});
+    const $=id=>root.querySelector('#'+id);let idx=0,shown=0,timers=[];
+    function chips(el,list,cls){el.innerHTML=list.map(t=>'<span class="mt-chip '+cls+'">'+t+'</span>').join('');return [...el.children];}
+    function render(s,animate){
+      timers.forEach(clearTimeout);timers=[];
+      const trucksN=s.trucks.filter(t=>t!=='Espresso Express').length+(s.extra?1:0);
+      const cat=s.guests*14,travel=trucksN*40,net=cat+travel+s.extra,v7=cat*.07,v19=(travel+s.extra)*.19,gross=net+v7+v19;
+      $('tPkg').textContent=s.pkg;$('tTitle').textContent=s.title;$('tMeta').textContent=s.meta;
+      const all=[...chips($('tFlags'),s.flags,'warn'),...chips($('tTrucks'),s.trucks,'')];
+      all.forEach((c,k)=>animate?timers.push(setTimeout(()=>c.classList.add('in'),120+k*110)):c.classList.add('in'));
+      $('tQuote').innerHTML='<h4>Quote</h4>'+
+        '<div class="mt-row"><span>Catering, '+s.guests+' × 14,00 € (7%)</span><span>'+eur.format(cat)+'</span></div>'+
+        (s.extra?'<div class="mt-row"><span>Coffee bar (19%)</span><span>'+eur.format(s.extra)+'</span></div>':'')+
+        '<div class="mt-row"><span>Travel, '+trucksN+' trucks (19%)</span><span>'+eur.format(travel)+'</span></div>'+
+        '<div class="mt-row"><span>VAT 7%</span><span>'+eur.format(v7)+'</span></div>'+
+        '<div class="mt-row"><span>VAT 19%</span><span>'+eur.format(v19)+'</span></div>'+
+        '<div class="mt-total"><span>Total gross</span><strong id="tGross">'+eur.format(animate?shown:gross)+'</strong></div>';
+      if(animate){const from=shown,t0=performance.now();const run=now=>{const p=Math.min(1,(now-t0)/800),e=1-Math.pow(1-p,3),val=from+(gross-from)*e;const g=root.querySelector('#tGross');if(g)g.textContent=eur.format(val);if(p<1)requestAnimationFrame(run);};requestAnimationFrame(run);}
+      shown=gross;}
+    render(S[0],false);
+    if(reduce)return;let timer=0;
+    inView(root,on=>{clearInterval(timer);if(on)timer=setInterval(()=>{idx=(idx+1)%S.length;render(S[idx],true);},5000);});
+  })();
+  (function(){ // PitchRoom: transcript, scores and structure check
+    const root=document.getElementById('mockP');if(!root)return;
+    const text='Every semester, thousands of students fail the cache chapter because, um, they never see it happen. Visually lets them change the cache and, uh, watch every hit and miss. We are asking for three pilot courses.';
+    const tr=root.querySelector('.mp-tr');
+    tr.innerHTML=text.split(' ').map(w=>/^(um|uh),?$/.test(w)?'<span class="w"><mark>'+w.replace(',','')+'</mark>'+(w.endsWith(',')?',':'')+'</span>':'<span class="w">'+w+'</span>').join(' ');
+    const words=[...tr.querySelectorAll('.w')],segs=[...root.querySelectorAll('.mp-seg')],rings=[...root.querySelectorAll('.mp-ring')],C=2*Math.PI*44;
+    rings.forEach(r=>{const fg=r.querySelector('.fg');fg.style.strokeDasharray=C;fg.style.strokeDashoffset=C;});
+    function setRings(on){rings.forEach(r=>{const v=+r.dataset.v;r.querySelector('.fg').style.strokeDashoffset=on?C*(1-v/100):C;const s=r.querySelector('strong');
+      if(!on){s.textContent='0';return;}const t0=performance.now();const run=now=>{const p=Math.min(1,(now-t0)/1400);s.textContent=Math.round(v*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(run);};requestAnimationFrame(run);});}
+    let timers=[];
+    function finalState(){words.forEach(w=>w.classList.add('in'));segs.forEach(s=>s.classList.add(s.dataset.c==='1'?'on':'miss'));rings.forEach(r=>{const v=+r.dataset.v;r.querySelector('.fg').style.strokeDashoffset=C*(1-v/100);r.querySelector('strong').textContent=v;});}
+    function play(){timers.forEach(clearTimeout);timers=[];words.forEach(w=>w.classList.remove('in'));segs.forEach(s=>s.classList.remove('on','miss'));setRings(false);
+      const gap=95,end=250+words.length*gap;
+      words.forEach((w,k)=>timers.push(setTimeout(()=>w.classList.add('in'),250+k*gap)));
+      segs.forEach((s,k)=>timers.push(setTimeout(()=>s.classList.add(s.dataset.c==='1'?'on':'miss'),400+k*(end/6))));
+      timers.push(setTimeout(()=>setRings(true),end+150));
+      timers.push(setTimeout(play,end+5200));}
+    if(reduce){finalState();return;}
+    finalState();
+    inView(root,on=>{if(on)play();else{timers.forEach(clearTimeout);timers=[];finalState();}});
   })();
 
   // copy email
