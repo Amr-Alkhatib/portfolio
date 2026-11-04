@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://amr-alkhatib.vercel.app/sitemap.xml
+Sitemap: https://amralkhatib.de/sitemap.xml
