@@ -292,7 +292,8 @@ input[type=range]{width:100%;accent-color:var(--plot)}
 .edu{display:flex;flex-direction:column;gap:4px}
 .edu p{color:var(--ink-2)}
 .skills{margin-top:8px;display:flex;flex-direction:column;gap:12px}
-.skill{display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;font-size:15px}
+.skill{display:grid;grid-template-columns:142px minmax(0,1fr);gap:16px;font-size:15px}
+@media (max-width:420px){.skill{grid-template-columns:minmax(0,1fr);gap:2px}}
 .skill b{font-weight:500}
 .skill span{color:var(--ink-2)}
 
@@ -605,11 +606,11 @@ input[type=range]{width:100%;accent-color:var(--plot)}
           <div class="edu"><span class="when" data-i18n="e.itt.when">Sep 2023 – Feb 2025</span><h3 data-i18n="e.itt.h3">B.Sc. Computer Science</h3><p data-i18n="e.itt.p">Ittihad Private University. GPA 3.77 / 4.</p></div>
           <div class="skills">
             <h3 data-i18n="s.h3">Skills</h3>
-            <div class="skill"><b data-i18n="s.build">Build</b><span>React, TypeScript, JavaScript, HTML, CSS, Angular</span></div>
-            <div class="skill"><b data-i18n="s.data">Data</b><span data-i18n="s.dataV">Python (pandas, openpyxl), MATLAB, Maple, Excel, statistics</span></div>
-            <div class="skill"><b data-i18n="s.sys">Systems</b><span>C++, Java, Assembly, Arduino</span></div>
-            <div class="skill"><b data-i18n="s.ai">AI</b><span data-i18n="s.aiV">Claude, MCP servers, API integration, workflow automation</span></div>
-            <div class="skill"><b data-i18n="s.lang">Languages</b><span data-i18n="s.langV">Arabic native, English C1, German B1, French A2</span></div>
+            <div class="skill"><b data-i18n="s.prog">Programming</b><span>Python, TypeScript, JavaScript, React, Java, C++, HTML, CSS, Angular, Assembly, Arduino, M</span></div>
+            <div class="skill"><b data-i18n="s.data">Data &amp; Analytics</b><span data-i18n="s.dataV">Excel (dashboards), Python (pandas, openpyxl), MATLAB, Maple, statistics, data validation, KPI definition and reporting</span></div>
+            <div class="skill"><b data-i18n="s.ai">AI &amp; Automation</b><span data-i18n="s.aiV">Claude, MCP servers, Lovable, Supabase, LLM and speech APIs, JSON/API integration, workflow automation</span></div>
+            <div class="skill"><b data-i18n="s.res">Academic Research</b><span data-i18n="s.resV">Literature review, academic writing, data coding</span></div>
+            <div class="skill"><b data-i18n="s.lang">Languages</b><span data-i18n="s.langV">English C1, Arabic native, German B1, French A2</span></div>
           </div>
         </div>
       </div>
@@ -749,9 +750,10 @@ input[type=range]{width:100%;accent-color:var(--plot)}
     'x.fe.desc':'An mehr als 15 Projekten mitgearbeitet und 5 weitere in einem zehnköpfigen Front-End-Team geprüft. Gemeinsame Standards eingeführt, die den Output des Teams in einem Quartal um 22 % steigerten.',
     'e.h2':'Studium','e.tum.when':'Seit Okt. 2025','e.tum.p':'Technische Universität München, Heilbronn. Schwerpunkt Cyber-Physical Systems.',
     'e.itt.when':'Sep. 2023 – Feb. 2025','e.itt.h3':'B.Sc. Informatik','e.itt.p':'Ittihad Private University. GPA 3,77 von 4.',
-    's.h3':'Kenntnisse','s.build':'Entwicklung','s.data':'Daten','s.dataV':'Python (pandas, openpyxl), MATLAB, Maple, Excel, Statistik',
-    's.sys':'Systeme','s.ai':'KI','s.aiV':'Claude, MCP-Server, API-Integration, Workflow-Automatisierung',
-    's.lang':'Sprachen','s.langV':'Arabisch (Muttersprache), Englisch C1, Deutsch B1, Französisch A2',
+    's.h3':'Kenntnisse','s.prog':'Programmierung','s.data':'Daten &amp; Analyse','s.dataV':'Excel (Dashboards), Python (pandas, openpyxl), MATLAB, Maple, Statistik, Datenvalidierung, KPI-Definition und Reporting',
+    's.ai':'KI &amp; Automatisierung','s.aiV':'Claude, MCP-Server, Lovable, Supabase, LLM- und Sprach-APIs, JSON-/API-Integration, Workflow-Automatisierung',
+    's.res':'Wissenschaftliches Arbeiten','s.resV':'Literaturrecherche, wissenschaftliches Schreiben, Datenkodierung',
+    's.lang':'Sprachen','s.langV':'Englisch C1, Arabisch (Muttersprache), Deutsch B1, Französisch A2',
     'c.h2':'Haben Sie ein System, das ein klareres Bild braucht?',
     'c.p':'Schreiben Sie mir zu einer Stelle, einem Projekt oder etwas auf dieser Seite. Ihre Nachricht landet direkt in meinem Postfach, und ich antworte persönlich.',
     'f.name':'Name','f.email':'E-Mail','f.msg':'Nachricht','f.namePh':'Ihr Name','f.emailPh':'sie@firma.de','f.msgPh':'Worüber möchten Sie sprechen?',
