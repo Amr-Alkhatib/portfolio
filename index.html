@@ -568,12 +568,13 @@ input[type=range]{width:100%;accent-color:var(--plot)}
           <div class="case reveal from-right" style="--rd:.12s">
             <div class="meta"><span class="chip">TUM Business Game</span><span data-i18n="date.oct26">Oct 2026</span></div>
             <h3>TruckOps</h3>
-            <p class="summary" data-i18n="t.summary">Booking and operations software for a corporate food-truck caterer.</p>
-            <div class="block"><b data-i18n="blk.problem">The problem</b><p data-i18n="t.problem">Every event quote meant checking permits town by town, night-time noise rules, crew working hours, road distance and VAT by hand.</p></div>
-            <div class="block"><b data-i18n="blk.built">What I built</b><p data-i18n="t.built">A booking flow that prices the event live, picks the fewest trucks that cover every guest and diet, and explains why a truck can’t come. Behind it, a back office for fleet, yards, pricing, permits and approvals.</p></div>
-            <div class="block"><b data-i18n="blk.hard">The hard part</b><p data-i18n="t.hard">Turning German rules into code: state holidays, TA Lärm after 22:00, street-use permits, §12 GastG for alcohol, ArbZG rest days, the 7% and 19% VAT split, and OSRM road distances.</p></div>
+            <p class="summary" data-i18n="t.summary">Booking, pricing and fleet planning for a corporate food-truck caterer in Baden-Württemberg.</p>
+            <div class="block"><b data-i18n="blk.problem">The problem</b><p data-i18n="t.problem">Every quote was done by hand: permit rules and fees town by town, night-time noise limits, crew hours and rest days, road distance, power supply, diets and VAT, and then which trucks were even free that day.</p></div>
+            <div class="block"><b data-i18n="blk.does">What it does</b><p data-i18n="t.built">A booking wizard that gives a live, legally correct quote and picks the fewest trucks that cover every guest and diet. If an event can’t be served, it says why in plain words and suggests the nearest dates that work, the most guests that fit, or a shorter event. Behind it, a back office for fleet, two depots, pricing, permits, crews and approvals.</p></div>
+            <div class="block"><b data-i18n="blk.hard">The hard part</b><p data-i18n="t.hard">A solver that stays correct under real constraints: capacity, diets, crew limits, vehicle height and power, ranked by fewest trucks, then fewest changes, then shortest trips. Every legal value (TA Lärm, §12 GastG, ArbZG, permit fees, VAT) is stored with its source, and unknown values send the booking to a permit check instead of guessing.</p></div>
+            <div class="block"><b data-i18n="blk.mine">My part</b><p data-i18n="t.mine">Built with Lovable’s AI agent. I turned the client’s needs into business rules, researched the German legal basis and real permit fees, specified the solver and how it explains failures, and reviewed and tested every iteration.</p></div>
             <p class="small" data-i18n="small.partner">Built on a real problem brought by a partner company.</p>
-            <div class="stack"><span>React</span><span>TypeScript</span><span>Supabase</span><span>OpenStreetMap</span><span>OSRM</span><span>Lovable</span></div>
+            <div class="stack"><span>React</span><span>TypeScript</span><span>TanStack Start</span><span>Supabase</span><span>Drizzle</span><span>OSRM</span><span>Vitest</span><span>Lovable</span></div>
             <div class="ctas">
               <a class="cta" href="https://truckops03.lovable.app/" target="_blank" rel="noopener"><span data-i18n="t.cta">Open the app</span><svg class="ico arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
               <a class="cta ghost" href="https://github.com/Amr-Alkhatib/truckops03" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14"/></svg><span data-i18n="v.cta2">View the code</span></a>
@@ -765,10 +766,13 @@ input[type=range]{width:100%;accent-color:var(--plot)}
     'v.cta1':'Simulator öffnen','v.cta2':'Code ansehen',
     't.aria':'TruckOps-Vorschau: Live-Angebote für drei Beispiel-Events mit passenden Trucks, Regelprüfungen und Mehrwertsteuer',
     't.checks':'PRÜFUNGEN','t.matched':'PASSENDE TRUCKS',
-    't.summary':'Buchungs- und Einsatzsoftware für einen Foodtruck-Caterer im Firmenkundengeschäft.',
-    't.problem':'Für jedes Angebot mussten Genehmigungen von Stadt zu Stadt, Nachtruhe-Regeln, Arbeitszeiten der Crew, Fahrstrecken und Mehrwertsteuer von Hand geprüft werden.',
-    't.built':'Ein Buchungsablauf, der das Event live kalkuliert, die wenigsten Trucks auswählt, die alle Gäste und Ernährungsweisen abdecken, und erklärt, warum ein Truck nicht kommen kann. Dahinter ein Backoffice für Flotte, Standorte, Preise, Genehmigungen und Freigaben.',
-    't.hard':'Deutsche Regeln in Code zu übersetzen: Feiertage der Bundesländer, TA Lärm nach 22:00 Uhr, Sondernutzungserlaubnisse, §12 GastG für Alkohol, Ruhetage nach ArbZG, die Aufteilung in 7 % und 19 % MwSt. und Fahrstrecken über OSRM.',
+    't.summary':'Buchung, Preiskalkulation und Flottenplanung für einen Foodtruck-Caterer im Firmenkundengeschäft in Baden-Württemberg.',
+    't.problem':'Jedes Angebot entstand von Hand: Sondernutzungsregeln und Gebühren je Stadt, Nachtruhe, Arbeits- und Ruhezeiten der Crew, Fahrstrecke, Stromversorgung, Ernährungsweisen und Mehrwertsteuer, und dann die Frage, welche Trucks an dem Tag überhaupt frei waren.',
+    'blk.does':'Was es kann',
+    't.built':'Ein Buchungsassistent, der live ein rechtlich korrektes Angebot erstellt und die wenigsten Trucks auswählt, die alle Gäste und Ernährungsweisen abdecken. Ist ein Event nicht machbar, nennt er den Grund in klaren Worten und schlägt die nächsten passenden Termine, die größte mögliche Gästezahl oder ein kürzeres Event vor. Dahinter ein Backoffice für Flotte, zwei Standorte, Preise, Genehmigungen, Crews und Freigaben.',
+    't.hard':'Ein Solver, der unter echten Bedingungen korrekt bleibt: Kapazität, Ernährungsweisen, Crew-Limits, Fahrzeughöhe und Strom, sortiert nach möglichst wenigen Trucks, dann wenigen Änderungen, dann kurzen Fahrten. Jeder rechtliche Wert (TA Lärm, §12 GastG, ArbZG, Sondernutzungsgebühren, MwSt.) ist mit Quelle gespeichert, und unbekannte Werte schicken die Buchung in die Genehmigungsprüfung, statt etwas zu schätzen.',
+    'blk.mine':'Mein Teil',
+    't.mine':'Mit dem KI-Agenten von Lovable gebaut. Ich habe die Anforderungen des Kunden in Geschäftsregeln übersetzt, die deutsche Rechtsgrundlage und echte Gebühren recherchiert, den Solver und seine Erklärungen bei Konflikten spezifiziert und jede Iteration geprüft und getestet.',
     'small.partner':'Entstanden aus einem echten Problem eines Partnerunternehmens.','t.cta':'App öffnen',
     'p.aria':'PitchRoom-Vorschau: ein Pitch-Transkript mit markierten Füllwörtern, Bewertungen für Auftritt und Reife sowie eine Strukturprüfung',
     'p.take':'Take 3, Wettbewerbsjury','p.delivery':'AUFTRITT','p.readiness':'REIFE',
