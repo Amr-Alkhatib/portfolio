@@ -7,7 +7,7 @@ My personal site: projects, models and experience, in English and German.
 ## What's on it
 
 - **Interactive quintic explorer.** Drag the coefficients of x⁵ + ax³ + bx² + cx + d and watch the real roots move. It's based on my 2022 paper for the Kolmogorov Readings at Moscow State University.
-- **Live product previews.** Small working recreations of each project's main screen (Visually, TruckOps, PitchRoom) instead of static screenshots.
+- **Live product previews.** Small working recreations of each project's main screen (Visually, Wanderly, TruckOps, PitchRoom) instead of static screenshots.
 - **Things I've modelled.** A timeline of systems I've turned into models or software, from aircraft boarding and urban parking to cache hierarchies and food-truck fleets.
 
 ## How it's built
