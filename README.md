@@ -13,9 +13,9 @@ My personal site: projects, models and experience, in English and German.
 
 ## How it's built
 
-- React and Vite. One fixed three.js canvas sits behind the page; the chip's geometry, brushed-metal and silicon materials, and the photo-studio lighting are all generated in code, with no 3D model or video files.
+- React and Vite. The 3D code loads after the page text, and phones get a lighter version of the chip. One fixed three.js canvas sits behind the page; the chip's geometry, brushed-metal and silicon materials, and the photo-studio lighting are all generated in code, with no 3D model or video files.
 - The scroll is the camera script: GSAP (ScrollTrigger, SplitText) and Lenis smooth scrolling drive the camera shots, the exploded view and the callouts from one clock.
-- Text and card effects from [React Bits](https://reactbits.dev): SplitText, DecryptedText, Magnet, SpotlightCard, Noise and the DotGrid background.
+- Text and card effects from [React Bits](https://reactbits.dev): SplitText, DecryptedText, Magnet, SpotlightCard and the DotGrid background.
 - English/German switch and light/dark theme, both remembered per visitor. With reduced motion the chip stays still and the skills become a plain list; without WebGL the content still works.
 - Security headers set in `vercel.json`: a strict Content-Security-Policy (scripts only from the site itself plus one inline script allowed by SHA-256 hash), plus frame, referrer and permissions policies. Fonts are self-hosted.
 - Contact form that delivers straight to my inbox (Web3Forms).

@@ -15,6 +15,7 @@ export default function Hero() {
   }, []);
   return (
     <section className="hero" id="top" aria-labelledby="hero-h">
+      <div className="hero-slot" aria-hidden="true" />
       <div className="wrap hero-row" ref={rest}>
         <div className="intro">
           <p className="hello" data-in {...html(t('hero.hello'))} />

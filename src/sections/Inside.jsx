@@ -74,6 +74,7 @@ export default function Inside() {
         <span id="in-h" hidden>{plain(t('in.h2'))}</span>
         <p {...html(t('in.p'))} />
       </div>
+      <div className="inside-slot" aria-hidden="true" />
       <svg className="leaders" ref={svg} aria-hidden="true">
         {LAYERS.map((L, i) => (
           <g key={L.part} className={on[i] ? 'on' : ''}>

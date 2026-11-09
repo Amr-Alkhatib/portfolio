@@ -29,10 +29,10 @@ export const SHOTS = {
 
 export const mixPose = (a, b, t) => { const o = {}; for (const k of KEYS) o[k] = a[k] + (b[k] - a[k]) * t; return o; };
 
-export function createEngine(canvas, { reduce = false, onFrame } = {}) {
+export function createEngine(canvas, { reduce = false, onFrame, lite = false } = {}) {
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: !lite, alpha: true, powerPreference: 'high-performance' });
   } catch (e) {
     return null;
   }
@@ -48,7 +48,7 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
   studio.traverse(o => { o.geometry?.dispose?.(); o.material?.dispose?.(); });
   pmrem.dispose();
 
-  const chip = buildChip({ font: "'Encode Sans', sans-serif" });
+  const chip = buildChip({ font: "'Encode Sans', sans-serif", lite });
   scene.add(chip.root);
   const order = ['lid', 'sram', 'compute', 'neural', 'substrate', 'balls'];
   const parts = order.map(n => chip.parts.find(p => p.name === n));
@@ -56,19 +56,25 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
   const camera = new THREE.PerspectiveCamera(26, 1, 1, 3000);
   const target = new THREE.Vector3();
   const tmp = new THREE.Vector3();
-  let W = 1, H = 1, dpr = Math.min(window.devicePixelRatio || 1, 1.75), maxDpr = dpr;
+  let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 1.75);
+  const touch = window.matchMedia('(hover: none)').matches;
+  let opacityShown = '', idleSkip = false, forceDraw = true;
   const cur = { ...SHOTS.desktop.hero };
-  let intro = reduce || SNAP ? 0 : 0.42;
+  let intro = reduce || SNAP ? 0 : lite ? 0.22 : 0.42;
   const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
   let time = 0, lastSig = '', frames = 0, slowAcc = 0, skip = false;
   const anchors = parts.map(p => ({ name: p.name, x: 0, y: 0, t: 0 }));
 
-  function resize() {
-    W = window.innerWidth; H = window.innerHeight;
+  // Phones change the viewport height while the toolbar slides in and out. Resizing the canvas
+  // for that clears it and causes flicker, so on touch screens the canvas only grows in height.
+  function resize(force) {
+    const w = window.innerWidth, h = Math.max(window.innerHeight, document.documentElement.clientHeight);
+    if (!force && w === W && (h === H || (touch && h < H && H - h < 220))) return;
+    H = touch && w === W && h < H ? H : h; W = w;
     renderer.setPixelRatio(dpr);
     renderer.setSize(W, H, false);
     camera.aspect = W / H;
-    lastSig = '';
+    lastSig = ''; forceDraw = true;
   }
 
   function place(p) {
@@ -87,7 +93,10 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
     const k = reduce || SNAP ? 1 : 1 - Math.exp(-dt * 5.5);
     // when the chip sits in a slot on the page, follow it tightly so it scrolls with the layout
     const kt = goal.track && !(reduce || SNAP) ? 1 - Math.exp(-dt * 24) : k;
-    for (const key of KEYS) cur[key] += (goal[key] - cur[key]) * (key === 'ox' || key === 'oy' || key === 'fit' ? kt : k);
+    let moved = 0;
+    for (const key of KEYS) { const d = (goal[key] - cur[key]) * (key === 'ox' || key === 'oy' || key === 'fit' ? kt : k); cur[key] += d; moved = Math.max(moved, Math.abs(d)); }
+    // fully hidden and staying hidden: nothing to draw or measure
+    if (cur.opacity < 0.01 && goal.opacity < 0.01) { if (opacityShown !== '0') { canvas.style.opacity = '0'; opacityShown = '0'; } return; }
     pointer.sx += (pointer.x - pointer.sx) * (reduce ? 1 : 1 - Math.exp(-dt * 3));
     pointer.sy += (pointer.y - pointer.sy) * (reduce ? 1 : 1 - Math.exp(-dt * 3));
 
@@ -98,7 +107,8 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
     chip.explode(e);
     scene.environmentRotation.set(0.1 + pointer.sy * 0.45, cur.env - pointer.sx * 0.8, 0);
     place(cur);
-    canvas.style.opacity = cur.opacity.toFixed(3);
+    const op = cur.opacity.toFixed(2);
+    if (op !== opacityShown) { canvas.style.opacity = op; opacityShown = op; }
 
     // project each layer's right edge to the screen for the callout leader lines
     chip.root.updateMatrixWorld(true);
@@ -114,15 +124,19 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
     if (reduce && sig === lastSig) return;
     lastSig = sig;
     if (cur.opacity < 0.02) return;
-    if (!reduce && cur.opacity < 0.5) { skip = !skip; if (skip) return; }   // parked: half rate
+    if (!reduce && cur.opacity < 0.5) { skip = !skip; if (skip) return; }   // faint: half rate
+    // when nothing is moving but the slow sway, 30 frames a second is plenty
+    const active = moved > 2e-4 || Math.abs(pointer.x - pointer.sx) + Math.abs(pointer.y - pointer.sy) > 2e-3;
+    if (!reduce && !active && !forceDraw) { idleSkip = !idleSkip; if (idleSkip) return; }
+    forceDraw = false;
     renderer.render(scene, camera);
 
     // adaptive quality: step the pixel ratio down if frames are slow
     if (!reduce && dt > 0) {
       frames++; slowAcc += dt > 1 / 45 ? 1 : 0;
       if (frames >= 90) {
-        if (slowAcc > 45 && dpr > 1) { dpr = Math.max(1, dpr - 0.25); resize(); }
-        else if (slowAcc < 5 && dpr < maxDpr) { dpr = Math.min(maxDpr, dpr + 0.25); resize(); }
+        // only ever step down: stepping back up makes the resolution flip-flop
+        if (slowAcc > 30 && dpr > 1) { dpr = Math.max(1, dpr - 0.25); resize(true); }
         frames = 0; slowAcc = 0;
       }
     }
@@ -155,6 +169,7 @@ export function createEngine(canvas, { reduce = false, onFrame } = {}) {
     renderer.dispose();
   }
 
-  resize();
-  return { update, resize, settle, setPointer, setTheme, dispose, anchors };
+  resize(true);
+  const size = () => ({ W, H });
+  return { update, resize, settle, setPointer, setTheme, dispose, anchors, size };
 }

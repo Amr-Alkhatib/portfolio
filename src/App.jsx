@@ -9,7 +9,6 @@ import Work from './sections/Work.jsx';
 import Models from './sections/Models.jsx';
 import Experience from './sections/Experience.jsx';
 import Contact from './sections/Contact.jsx';
-import Noise from './bits/Noise.jsx';
 import Backdrop from './Backdrop.jsx';
 import { ThemeProvider } from './theme.jsx';
 
@@ -73,7 +72,6 @@ function Shell() {
       </main>
       <Contact />
       <Footer />
-      <Noise fixed opacity={0.04} fps={12} blendMode="soft-light" zIndex={60} />
     </div>
   );
 }

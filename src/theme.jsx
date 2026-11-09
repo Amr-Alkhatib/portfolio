@@ -20,7 +20,7 @@ export function ThemeProvider({ children }) {
     if (choice) root.dataset.theme = choice; else delete root.dataset.theme;
     M.theme = theme;
     M.engine?.setTheme(theme);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#F2F4F9' : '#080B16');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#E1E5ED' : '#080B16');
   }, [choice, theme]);
   const setTheme = (t) => { setChoice(t); try { localStorage.setItem('theme', t); } catch (e) { /* private mode */ } };
   return <Ctx.Provider value={{ theme, setTheme }}>{children}</Ctx.Provider>;

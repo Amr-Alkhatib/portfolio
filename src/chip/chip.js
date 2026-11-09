@@ -190,11 +190,11 @@ function substrateTex() {
 }
 
 // ---------- materials ----------
-function materials(font) {
+function materials(font, lite) {
   const brushed = brushedRoughness([34, 34]);
   const satin = new THREE.MeshPhysicalMaterial({
     color: '#c9ccd3', metalness: 1, roughness: 0.82, roughnessMap: brushed,
-    anisotropy: 0.5, anisotropyRotation: 0, clearcoat: 0.0,
+    anisotropy: lite ? 0 : 0.5, anisotropyRotation: 0, clearcoat: 0.0,
   });
   const polished = new THREE.MeshPhysicalMaterial({ color: '#d9dbe0', metalness: 1, roughness: 0.07 });
   const marking = new THREE.MeshStandardMaterial({
@@ -210,13 +210,13 @@ function materials(font) {
     new THREE.MeshPhysicalMaterial({
       color: '#ffffff', map: tex, emissiveMap: tex, metalness: 0.15, roughness: 0.32,
       emissive: '#ffffff', emissiveIntensity: 0.32,
-      iridescence: 0.9, iridescenceIOR: 1.7, iridescenceThicknessRange: [200, 700],
-      clearcoat: 0.6, clearcoatRoughness: 0.12, envMapIntensity: 0.55,
+      iridescence: lite ? 0 : 0.9, iridescenceIOR: 1.7, iridescenceThicknessRange: [200, 700],
+      clearcoat: lite ? 0 : 0.6, clearcoatRoughness: 0.12, envMapIntensity: 0.55,
     }),
     new THREE.MeshPhysicalMaterial({ color: '#1a1f2e', metalness: 0.7, roughness: 0.28 }),
   ]; };
   const substrate = [
-    new THREE.MeshPhysicalMaterial({ color: '#ffffff', map: substrateTex(), roughness: 0.55, metalness: 0.05, clearcoat: 0.35, clearcoatRoughness: 0.35, envMapIntensity: 0.6 }),
+    new THREE.MeshPhysicalMaterial({ color: '#ffffff', map: substrateTex(), roughness: 0.55, metalness: 0.05, clearcoat: lite ? 0 : 0.35, clearcoatRoughness: 0.35, envMapIntensity: 0.6 }),
     new THREE.MeshPhysicalMaterial({ color: '#c79a4a', roughness: 0.5, metalness: 0.4 }),
   ];
   const solder = new THREE.MeshPhysicalMaterial({ color: '#cfd2d8', metalness: 1, roughness: 0.22 });
@@ -226,8 +226,8 @@ function materials(font) {
 }
 
 // ---------- the object ----------
-export function buildChip({ font = 'sans-serif' } = {}) {
-  const M = materials(font);
+export function buildChip({ font = 'sans-serif', lite = false } = {}) {
+  const M = materials(font, lite);
   const root = new THREE.Group();
   const parts = [];
   const add = (name, obj, base, lift, order) => {
@@ -238,7 +238,7 @@ export function buildChip({ font = 'sans-serif' } = {}) {
   };
 
   // ball grid (22 x 22 at 1.5 mm pitch)
-  const ballG = new THREE.SphereGeometry(0.34, 18, 12);
+  const ballG = lite ? new THREE.SphereGeometry(0.34, 8, 6) : new THREE.SphereGeometry(0.34, 16, 10);
   const n = 22, pitch = 1.5;
   const balls = new THREE.InstancedMesh(ballG, M.solder, n * n);
   const m4 = new THREE.Matrix4();

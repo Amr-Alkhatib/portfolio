@@ -9,8 +9,7 @@ const IDS = ['a', 'b', 'c', 'd'], DEF = { a: -5, b: 0, c: 4, d: 0 };
 
 function Explorer() {
   const { t, num } = useLang();
-  const svgRef = useRef(null), tagRef = useRef(null), readRef = useRef(null), api = useRef({});
-  const [vals, setVals] = useState(DEF);
+  const svgRef = useRef(null), tagRef = useRef(null), readRef = useRef(null), api = useRef({}), inRefs = useRef({}), outRefs = useRef({});
   const [playing, setPlaying] = useState(!reduceMotion);
   const fmt = (v, n = 1) => (v < 0 ? '−' : '') + num(Math.abs(v), n);
 
@@ -47,7 +46,10 @@ function Explorer() {
     const onMove = (e) => { const box = svg.getBoundingClientRect(); probeX = Math.max(X0, Math.min(X1, X0 + (e.clientX - box.left) / box.width * (X1 - X0))); probe.style.display = ''; tag.classList.add('on'); placeProbe(probeX); };
     const onLeave = () => { probeX = null; probe.style.display = 'none'; tag.classList.remove('on'); };
     svg.addEventListener('pointermove', onMove); svg.addEventListener('pointerleave', onLeave);
-    api.current = { get v() { return v; }, set: (nv, N) => { v = nv; draw(N); } };
+    // sliders and their readouts are written directly, so the drift doesn't re-render React 60 times a second
+    const sync = () => IDS.forEach((k) => { const i = inRefs.current[k], o = outRefs.current[k]; if (i && document.activeElement !== i) i.value = v[k].toFixed(1); if (o) o.textContent = fmt(v[k]); });
+    api.current = { get v() { return v; }, set: (nv, N) => { v = nv; draw(N); sync(); } };
+    sync();
     draw();
     return () => { svg.removeEventListener('pointermove', onMove); svg.removeEventListener('pointerleave', onLeave); };
   }, [t, num]);
@@ -59,13 +61,13 @@ function Explorer() {
     const io = new IntersectionObserver((es) => { visible = es[0].isIntersecting; if (visible) raf = requestAnimationFrame(tick); else cancelAnimationFrame(raf); });
     const tick = (ts) => { if (t0 === null) t0 = ts - phase * 1000; const tt = (ts - t0) / 1000; api.current.phase = tt;
       const nv = { a: -5 + 2.2 * Math.sin(tt * 0.45), b: 1.6 * Math.sin(tt * 0.31 + 0.6), c: 4 + 2.0 * Math.sin(tt * 0.27 + 1.2), d: 1.4 * Math.sin(tt * 0.39 + 2.1) };
-      api.current.set(nv, 2400); setVals(nv); if (visible) raf = requestAnimationFrame(tick); };
+      api.current.set(nv, 2400); if (visible) raf = requestAnimationFrame(tick); };
     io.observe(svgRef.current);
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
   }, [playing]);
 
-  const onSlide = (k) => (e) => { setPlaying(false); const nv = { ...api.current.v, [k]: parseFloat(e.target.value) }; api.current.set(nv); setVals(nv); };
-  const reset = () => { setPlaying(false); api.current.phase = 0; api.current.set({ ...DEF }); setVals({ ...DEF }); };
+  const onSlide = (k) => (e) => { setPlaying(false); const nv = { ...api.current.v, [k]: parseFloat(e.target.value) }; api.current.set(nv); };
+  const reset = () => { setPlaying(false); api.current.phase = 0; api.current.set({ ...DEF }); };
   return (
     <figure className="explorer reveal" aria-label={t('ex.aria')}>
       <div className="explorer-top">
@@ -80,8 +82,8 @@ function Explorer() {
         {IDS.map((k) => (
           <div className="slider" key={k}>
             <label htmlFor={'c' + k}>{k}</label>
-            <input id={'c' + k} type="range" min="-8" max="8" step="0.1" value={vals[k].toFixed(1)} onChange={onSlide(k)} />
-            <output htmlFor={'c' + k}>{fmt(vals[k])}</output>
+            <input id={'c' + k} ref={(el) => { inRefs.current[k] = el; }} type="range" min="-8" max="8" step="0.1" defaultValue={DEF[k]} onInput={onSlide(k)} />
+            <output htmlFor={'c' + k} ref={(el) => { outRefs.current[k] = el; }}>{fmt(DEF[k])}</output>
           </div>
         ))}
       </div>

@@ -5,6 +5,8 @@ import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
+// phones resize the viewport while the toolbar slides; re-measuring then makes pinned sections jump
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 export const isMobile = () => typeof window !== 'undefined' && window.matchMedia('(max-width: 899px)').matches;
