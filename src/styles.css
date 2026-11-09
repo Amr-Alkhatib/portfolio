@@ -102,7 +102,8 @@ main,.contact,.site-foot{position:relative;z-index:1}
 .lang button{font:600 13px/1 var(--sans);font-stretch:112.5%;color:var(--text-2);background:none;border:0;border-radius:999px;padding:8px 12px;cursor:pointer;transition:background .2s,color .2s}
 .lang button[aria-pressed="true"]{background:var(--text);color:var(--ink)}
 .lang-lg button{font-size:14px;padding:8px 16px}
-.menu-group .lang{align-self:flex-start}
+.menu-group .lang{align-self:flex-start;display:grid;grid-template-columns:1fr 1fr;width:228px}
+.menu-group .lang button{text-align:center;padding-inline:0}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gold-fill);transform-origin:0 50%;transform:scaleX(0)}
 .theme-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink-2);border:1px solid var(--line);color:var(--text);cursor:pointer;transition:border-color .2s}
 .theme-btn:hover{border-color:var(--line-2)}
@@ -130,6 +131,8 @@ html.menu-open{overflow:hidden}
 .hello{font-size:20px;color:var(--text-2);margin-bottom:18px}
 .hero-h{max-width:720px}
 .lede{font-size:19px;line-height:1.63;color:var(--text-2);max-width:560px;margin-top:30px}
+.open-line{display:flex;align-items:flex-start;gap:10px;margin-top:20px;max-width:640px;font-size:15px;font-weight:500;line-height:1.5;color:var(--text)}
+.open-line .pulse{flex:none;margin-top:.5em}
 .actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:36px;align-items:center}
 .facts{margin-top:28px;font-size:14px;font-weight:500;color:var(--text-3)}
 .hero-cap{position:absolute;right:var(--pad);bottom:40px;font-size:13px;color:var(--text-3);max-width:480px;text-align:right}
@@ -157,6 +160,7 @@ html.menu-open{overflow:hidden}
 .callout.on{opacity:1;transform:none}
 .c-layer{display:block;min-height:1.45em;font-weight:600;font-stretch:112.5%;font-size:13px;letter-spacing:.02em;color:var(--gold)}
 .c-enc{color:var(--text-3)}
+.c-plain{margin-left:8px;padding:1px 8px;border-radius:999px;font-weight:500;font-stretch:100%;font-size:12px;letter-spacing:0;color:var(--text-2);background:var(--ink-3);border:1px solid var(--line);white-space:nowrap}
 .c-group{margin:1px 0 3px;font-weight:700;font-size:clamp(16px,2.1vh,19px);line-height:1.25;letter-spacing:-.01em}
 .c-items{font-size:clamp(13px,1.65vh,15px);line-height:1.5;color:var(--text-2)}
 .steps{display:none}

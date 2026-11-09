@@ -25,6 +25,7 @@ export default function Hero() {
           />
           <span id="hero-h" hidden>{plain(t('hero.h1'))}</span>
           <p className="lede" data-in {...html(t('hero.lede'))} />
+          <p className="open-line" data-in><span className="pulse" aria-hidden="true" />{t('hero.open')}</p>
           <div className="actions" data-in>
             <Magnet padding={70} magnetStrength={5}><a className="btn btn-primary" href="#work">{t('hero.cta1')}</a></Magnet>
             <a className="btn btn-ghost" href="#contact">{t('hero.cta2')}</a>

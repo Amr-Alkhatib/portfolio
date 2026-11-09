@@ -6,12 +6,12 @@ import { M, ScrollTrigger, reduceMotion, isMobile } from '../motion.js';
 
 // top to bottom, the order the layers come off
 const LAYERS = [
-  { part: 'lid', layer: 'in.lid', group: null, items: 'in.lidV' },
-  { part: 'sram', layer: 'in.sram', group: 's.data', items: 's.dataV' },
-  { part: 'compute', layer: 'in.core', group: 's.prog', items: 's.progV' },
-  { part: 'neural', layer: 'in.npu', group: 's.ai', items: 's.aiV' },
-  { part: 'substrate', layer: 'in.sub', group: 's.res', items: 's.resV' },
-  { part: 'balls', layer: 'in.bga', group: 's.lang', items: 's.langV' },
+  { part: 'lid', layer: 'in.lid', plain: 'in.lidM', group: null, items: 'in.lidV' },
+  { part: 'sram', layer: 'in.sram', plain: 'in.sramM', group: 's.data', items: 's.dataV' },
+  { part: 'compute', layer: 'in.core', plain: 'in.coreM', group: 's.prog', items: 's.progV' },
+  { part: 'neural', layer: 'in.npu', plain: 'in.npuM', group: 's.ai', items: 's.aiV' },
+  { part: 'substrate', layer: 'in.sub', plain: 'in.subM', group: 's.res', items: 's.resV' },
+  { part: 'balls', layer: 'in.bga', plain: 'in.bgaM', group: 's.lang', items: 's.langV' },
 ];
 
 export default function Inside() {
@@ -89,6 +89,7 @@ export default function Inside() {
               {on[i] && !reduceMotion
                 ? <DecryptedText key={lang + i} text={plain(t(L.layer))} animateOn="view" speed={45} maxIterations={14} sequential revealDirection="start" characters="01ABCDEF#%&*+=" encryptedClassName="c-enc" />
                 : plain(t(L.layer))}
+              <span className="c-plain">{t(L.plain)}</span>
             </span>
             <h3 className="c-group" {...html(L.group ? t(L.group) : 'Amr Alkhatib')} />
             <p className="c-items" {...html(t(L.items))} />
