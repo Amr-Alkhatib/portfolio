@@ -61,7 +61,9 @@ img,svg{max-width:100%}
 .backdrop .dot-grid,.dots-static{position:absolute;inset:0;-webkit-mask-image:radial-gradient(130% 95% at 50% 45%,rgba(0,0,0,.6) 20%,#000 75%);mask-image:radial-gradient(130% 95% at 50% 45%,rgba(0,0,0,.6) 20%,#000 75%)}
 
 /* the 3D stage: one fixed canvas behind the whole page */
-.stage{position:fixed;inset:0;width:100vw;height:100vh;height:100lvh;z-index:0;pointer-events:none;display:block;opacity:0;transition:opacity .2s}
+.stage-host{position:fixed;left:0;top:0;width:100%;height:100vh;height:100lvh;z-index:0;pointer-events:none}
+.stage{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;pointer-events:none}
+.hero-slot,.chip-slot{position:relative}
 main,.contact,.site-foot{position:relative;z-index:1}
 
 /* type */
@@ -99,7 +101,8 @@ main,.contact,.site-foot{position:relative;z-index:1}
 .lang{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--ink-2)}
 .lang button{font:600 13px/1 var(--sans);font-stretch:112.5%;color:var(--text-2);background:none;border:0;border-radius:999px;padding:8px 12px;cursor:pointer;transition:background .2s,color .2s}
 .lang button[aria-pressed="true"]{background:var(--text);color:var(--ink)}
-.lang-lg button{font-size:15px;padding:10px 20px}
+.lang-lg button{font-size:14px;padding:8px 16px}
+.menu-group .lang{align-self:flex-start}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--gold-fill);transform-origin:0 50%;transform:scaleX(0)}
 .theme-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink-2);border:1px solid var(--line);color:var(--text);cursor:pointer;transition:border-color .2s}
 .theme-btn:hover{border-color:var(--line-2)}
@@ -118,7 +121,7 @@ main,.contact,.site-foot{position:relative;z-index:1}
 .menu-group{display:flex;flex-direction:column;gap:10px}
 .menu-mail{margin-top:auto;color:var(--text-2);font-size:15px}
 html.menu-open{overflow:hidden}
-@media (max-width:899px){.nav,.head-lang{display:none}.menu-btn{display:grid}.head-right{gap:12px}}
+@media (max-width:899px){.nav,.head-lang,.head-right .theme-btn{display:none}.menu-btn{display:grid}.head-right{gap:12px}}
 
 /* hero */
 .hero{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding-block:calc(var(--head) + 40px) 120px}
@@ -138,7 +141,8 @@ html.menu-open{overflow:hidden}
 .hero-slot,.inside-slot{display:none;pointer-events:none}
 
 /* what's inside: pinned, the chip comes apart */
-.inside{position:relative;height:100vh;height:100svh;overflow:hidden}
+.inside{position:relative;height:370vh}
+.inside-stage{position:sticky;top:0;height:100vh;overflow:hidden}
 .inside-head{position:absolute;left:0;right:0;top:calc(var(--head) + 3vh);display:flex;flex-direction:column;gap:14px;pointer-events:none}
 .inside-head>*{pointer-events:auto}
 .inside-head .d2{max-width:560px}
@@ -163,6 +167,7 @@ html.menu-open{overflow:hidden}
 .in-back{position:absolute;right:var(--pad);bottom:32px;font-size:14px;color:var(--text-3)}
 /* reduced motion or no WebGL: the layers become a plain list */
 .inside.static,.no-webgl .inside{height:auto;overflow:visible;padding-block:calc(var(--head) + 40px) 80px}
+.inside.static .inside-stage,.no-webgl .inside-stage{position:static;height:auto;overflow:visible}
 .inside.static .inside-head,.no-webgl .inside-head{position:static}
 .inside.static .callouts,.no-webgl .callouts{position:static;height:auto;margin:40px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px;width:min(1280px,100% - 2*var(--pad))}
 .inside.static .callout,.no-webgl .callout{opacity:1;transform:none;transition:none}
@@ -171,6 +176,8 @@ html.menu-open{overflow:hidden}
   .inside-head{top:calc(var(--head) + 8px)}
   .inside-head p{display:none}
   .leaders,.scrub,.in-back{display:none}
+  .inside{height:calc(100svh + 240svh)}
+  .inside-stage{height:100svh}
   .inside-slot{display:block;position:absolute;left:var(--pad);right:var(--pad);top:calc(var(--head) + 64px);bottom:276px}
   .callouts{left:var(--pad);right:var(--pad);top:auto;bottom:64px;width:auto;height:190px;display:block}
   .callout{position:absolute;left:0;right:0;bottom:0;background:var(--card);border:1px solid rgba(231,184,90,.45);border-radius:18px;padding:18px 20px;transform:translateY(14px)}
@@ -334,3 +341,4 @@ html.menu-open{overflow:hidden}
   .hero-cue{bottom:32px}
 }
 @media (prefers-reduced-motion:reduce){.cue-line,.pulse{animation:none}*{scroll-behavior:auto!important}}
+.inside.static .inside-slot,.no-webgl .inside-slot{display:none}

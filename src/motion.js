@@ -20,7 +20,8 @@ export const M = {
 };
 
 export function startScroll() {
-  if (reduceMotion) return () => {};
+  // phones keep their own native scrolling: it is smoother there than anything done in JavaScript
+  if (reduceMotion || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return () => {};
   const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false });
   M.lenis = lenis;
   lenis.on('scroll', ScrollTrigger.update);

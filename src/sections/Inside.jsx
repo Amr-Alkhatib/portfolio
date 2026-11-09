@@ -22,15 +22,13 @@ export default function Inside() {
   const onRef = useRef(on);
   const curRef = useRef(reduceMotion ? 0 : -1);
 
-  // pin the section while the chip comes apart and goes back together
+  // The section is tall and its stage is CSS-sticky, so the browser holds it in place natively
+  // (no JavaScript pinning, which stutters on phones). This trigger only measures progress.
   useLayoutEffect(() => {
     const st = ScrollTrigger.create({
       trigger: sec.current,
       start: reduceMotion ? 'top 45%' : 'top top',
-      end: () => reduceMotion ? 'bottom 55%' : '+=' + Math.round(window.innerHeight * (isMobile() ? 2.4 : 2.7)),
-      pin: !reduceMotion,
-      pinSpacing: true,
-      anticipatePin: 1,
+      end: reduceMotion ? 'bottom 55%' : 'bottom bottom',
       invalidateOnRefresh: true,
     });
     M.pinST = st;
@@ -69,6 +67,7 @@ export default function Inside() {
 
   return (
     <section className={'inside' + (reduceMotion ? ' static' : '')} id="skills" ref={sec} aria-labelledby="in-h">
+      <div className="inside-stage">
       <div className="wrap inside-head">
         <SplitText tag="h2" text={plain(t('in.h2'))} className="d2" splitType="lines" mask effect="rise" textAlign="left" duration={1} delay={80} />
         <span id="in-h" hidden>{plain(t('in.h2'))}</span>
@@ -103,6 +102,7 @@ export default function Inside() {
         <span>{t('in.assembled')}</span>
         <span className="track"><i ref={fill} /></span>
         <span className="hi">{t('in.exploded')}</span>
+      </div>
       </div>
     </section>
   );

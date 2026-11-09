@@ -58,24 +58,38 @@ export function createEngine(canvas, { reduce = false, onFrame, lite = false } =
   const tmp = new THREE.Vector3();
   let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 1.75);
   const touch = window.matchMedia('(hover: none)').matches;
-  let opacityShown = '', idleSkip = false, forceDraw = true;
+  let opacityShown = '', idleSkip = false, forceDraw = true, manual = false;
   const cur = { ...SHOTS.desktop.hero };
-  let intro = reduce || SNAP ? 0 : lite ? 0.22 : 0.42;
+  let intro = reduce || SNAP || lite ? 0 : 0.42;
   const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
   let time = 0, lastSig = '', frames = 0, slowAcc = 0, skip = false;
   const anchors = parts.map(p => ({ name: p.name, x: 0, y: 0, t: 0 }));
 
   // Phones change the viewport height while the toolbar slides in and out. Resizing the canvas
   // for that clears it and causes flicker, so on touch screens the canvas only grows in height.
-  function resize(force) {
-    const w = window.innerWidth, h = Math.max(window.innerHeight, document.documentElement.clientHeight);
-    if (!force && w === W && (h === H || (touch && h < H && H - h < 220))) return;
-    H = touch && w === W && h < H ? H : h; W = w;
+  function apply() {
     renderer.setPixelRatio(dpr);
     renderer.setSize(W, H, false);
     camera.aspect = W / H;
     lastSig = ''; forceDraw = true;
   }
+  function resize(force) {
+    if (manual) return;
+    const w = window.innerWidth, h = Math.max(window.innerHeight, document.documentElement.clientHeight);
+    if (!force && w === W && (h === H || (touch && h < H && H - h < 220))) return;
+    H = touch && w === W && h < H ? H : h; W = w;
+    apply();
+  }
+  // Phones: the canvas lives inside a box on the page and scrolls with it natively,
+  // so it never lags behind the finger. The box sets the drawing size.
+  function setViewport(w, h) {
+    if (w == null) { manual = false; W = 0; resize(true); return; }
+    manual = true;
+    w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
+    if (w === W && h === H) return;
+    W = w; H = h; apply();
+  }
+  function fadeFromZero() { cur.opacity = 0; }
 
   function place(p) {
     const aspect = W / H;
@@ -136,7 +150,7 @@ export function createEngine(canvas, { reduce = false, onFrame, lite = false } =
       frames++; slowAcc += dt > 1 / 45 ? 1 : 0;
       if (frames >= 90) {
         // only ever step down: stepping back up makes the resolution flip-flop
-        if (slowAcc > 30 && dpr > 1) { dpr = Math.max(1, dpr - 0.25); resize(true); }
+        if (slowAcc > 30 && dpr > 1) { dpr = Math.max(1, dpr - 0.25); apply(); }
         frames = 0; slowAcc = 0;
       }
     }
@@ -171,5 +185,5 @@ export function createEngine(canvas, { reduce = false, onFrame, lite = false } =
 
   resize(true);
   const size = () => ({ W, H });
-  return { update, resize, settle, setPointer, setTheme, dispose, anchors, size };
+  return { update, resize, setViewport, fadeFromZero, settle, setPointer, setTheme, dispose, anchors, size };
 }
