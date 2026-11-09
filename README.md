@@ -6,15 +6,18 @@ My personal site: projects, models and experience, in English and German.
 
 ## What's on it
 
+- **A chip that comes apart.** A processor package drawn live in 3D, built entirely in code with my name on the lid. Scrolling takes it apart layer by layer, and each layer is one group of my skills.
 - **Interactive quintic explorer.** Drag the coefficients of x⁵ + ax³ + bx² + cx + d and watch the real roots move. It's based on my 2022 paper for the Kolmogorov Readings at Moscow State University.
 - **Live product previews.** Small working recreations of each project's main screen (Visually, Wanderly, TruckOps, PitchRoom) instead of static screenshots.
 - **Things I've modelled.** A timeline of systems I've turned into models or software, from aircraft boarding and urban parking to cache hierarchies and food-truck fleets.
 
 ## How it's built
 
-- A single static `index.html` with hand-written HTML, CSS and JavaScript. No framework and no build step.
-- English/German switch and light/dark theme, both remembered per visitor.
-- Security headers set in `vercel.json`: a strict Content-Security-Policy that allows inline scripts only by SHA-256 hash, plus frame, referrer and permissions policies. Fonts are self-hosted, so the site makes no third-party font requests.
+- React and Vite. One fixed three.js canvas sits behind the page; the chip's geometry, brushed-metal and silicon materials, and the photo-studio lighting are all generated in code, with no 3D model or video files.
+- The scroll is the camera script: GSAP (ScrollTrigger, SplitText) and Lenis smooth scrolling drive the camera shots, the exploded view and the callouts from one clock.
+- Text and card effects from [React Bits](https://reactbits.dev): SplitText, DecryptedText, Magnet, SpotlightCard, Noise and the DotGrid background.
+- English/German switch and light/dark theme, both remembered per visitor. With reduced motion the chip stays still and the skills become a plain list; without WebGL the content still works.
+- Security headers set in `vercel.json`: a strict Content-Security-Policy (scripts only from the site itself plus one inline script allowed by SHA-256 hash), plus frame, referrer and permissions policies. Fonts are self-hosted.
 - Contact form that delivers straight to my inbox (Web3Forms).
 - Responsive down to phone width, with a dedicated menu panel for phones and tablets.
 - Sitemap, `robots.txt` and Open Graph image for search and link previews.
@@ -22,9 +25,10 @@ My personal site: projects, models and experience, in English and German.
 
 ## Run locally
 
-No build step. Serve the folder with any static server:
-
 ```bash
-python -m http.server 8000
-# then open http://localhost:8000
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build in dist/
 ```
+
+If you change the inline script in `index.html`, update its SHA-256 hash in the Content-Security-Policy in `vercel.json`.
