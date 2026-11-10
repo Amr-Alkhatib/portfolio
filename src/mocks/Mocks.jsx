@@ -1,6 +1,6 @@
 // Live recreations of each app's main screen. Logic ported from the previous site.
 import { useEffect, useRef } from 'react';
-import { useLang } from '../i18n.jsx';
+import { useLang, html } from '../i18n.jsx';
 import { reduceMotion } from '../motion.js';
 import './mocks.css';
 
@@ -50,63 +50,95 @@ export function MockVisually() {
   );
 }
 
-const WC = { ChiangMai: ['Chiang Mai', 'Chiang Mai', 'Thailand', 'Thailand'], Tbilisi: ['Tbilisi', 'Tiflis', 'Georgia', 'Georgien'], Ubud: ['Ubud', 'Ubud', 'Indonesia', 'Indonesien'],
-  LuangPrabang: ['Luang Prabang', 'Luang Prabang', 'Laos', 'Laos'], Tokyo: ['Tokyo', 'Tokio', 'Japan', 'Japan'], Prague: ['Prague', 'Prag', 'Czechia', 'Tschechien'],
-  Singapore: ['Singapore', 'Singapur', 'Singapore', 'Singapur'], Vienna: ['Vienna', 'Wien', 'Austria', 'Österreich'], ElNido: ['El Nido', 'El Nido', 'Philippines', 'Philippinen'],
-  Split: ['Split', 'Split', 'Croatia', 'Kroatien'], Busan: ['Busan', 'Busan', 'South Korea', 'Südkorea'], Kotor: ['Kotor', 'Kotor', 'Montenegro', 'Montenegro'] };
+// Wanderly's home hero: the "Ranked right now" card re-ranks for three traveller profiles.
+// Each score is split into its four factor contributions (points out of 100), as in the app.
+const WC = { Ubud: ['Ubud', 'Ubud', 'Indonesia', 'Indonesien'], Tokyo: ['Tokyo', 'Tokio', 'Japan', 'Japan'], Hanoi: ['Hanoi', 'Hanoi', 'Vietnam', 'Vietnam'],
+  Singapore: ['Singapore', 'Singapur', 'Singapore', 'Singapur'], ChiangMai: ['Chiang Mai', 'Chiang Mai', 'Thailand', 'Thailand'], Tbilisi: ['Tbilisi', 'Tiflis', 'Georgia', 'Georgien'],
+  LuangPrabang: ['Luang Prabang', 'Luang Prabang', 'Laos', 'Laos'], ElNido: ['El Nido', 'El Nido', 'Philippines', 'Philippinen'], Split: ['Split', 'Split', 'Croatia', 'Kroatien'],
+  Busan: ['Busan', 'Busan', 'South Korea', 'Südkorea'], Kotor: ['Kotor', 'Kotor', 'Montenegro', 'Montenegro'] };
 const WP = [
-  { name: ['Backpacker, €40 a day, nature and food', 'Backpacker, 40 € am Tag, Natur und Essen'], rows: [['ChiangMai', 81, [26.4, 18.6, 14, 21.5]], ['Tbilisi', 81, [27.3, 18.6, 14, 21.5]], ['Ubud', 80, [26.2, 18.1, 14, 21.5]], ['LuangPrabang', 79, [26.4, 18.4, 14, 20.2]]],
-    top: { sum: ['Mountain temples, elephant sanctuaries and a slow northern pace.', 'Bergtempel, Elefantenschutzgebiete und ein ruhiges Tempo im Norden.'], cost: [24, 50], safe: [85, ['Safe', 'Sicher']], best: ['Nature', 'Natur'] } },
-  { name: ['Safety first, culture and cities', 'Sicherheit zuerst, Kultur und Städte'], rows: [['Tokyo', 88, [27.8, 23, 14, 23]], ['Prague', 87, [28.6, 22, 14, 22]], ['Singapore', 87, [28.1, 23.5, 14, 21.8]], ['Vienna', 87, [28.1, 22.5, 14, 22.5]]],
-    top: { sum: ['A blend of ancient tradition and cutting-edge modernity.', 'Eine Mischung aus alter Tradition und modernster Technik.'], cost: [55, 110], safe: [92, ['Safe', 'Sicher']], best: ['Culture', 'Kultur'] } },
-  { name: ['Beach break, €100 a day', 'Strandurlaub, 100 € am Tag'], rows: [['ElNido', 83, [28.3, 16.7, 14, 24]], ['Split', 83, [27.6, 19, 14, 22]], ['Busan', 82, [27.7, 18.8, 14, 21]], ['Kotor', 82, [28.2, 18.8, 14, 21.5]]],
-    top: { sum: ['Limestone lagoons and turquoise bays on Palawan’s northern tip.', 'Kalksteinlagunen und türkisfarbene Buchten an der Nordspitze von Palawan.'], cost: [28, 58], safe: [74, ['Moderate', 'Moderat']], best: ['Beach', 'Strand'] } }];
+  // the profile the live home page ranks for, with its live numbers
+  { note: ['for a mid-range traveller who wants it safe, with culture, food and nature', 'für Reisende mit mittlerem Budget, denen Sicherheit wichtig ist, mit Kultur, Essen und Natur'],
+    rows: [['Ubud', 83, [28.1, 19.3, 14, 21.3]], ['Tokyo', 80, [25.9, 21.4, 14, 19.2]], ['Hanoi', 80, [28.1, 19.7, 14, 18.1]], ['Singapore', 80, [26.4, 21.9, 14, 17.7]]] },
+  { note: ['for a backpacker on €40 a day who loves nature and food', 'für Backpacker mit 40 € am Tag, die Natur und gutes Essen lieben'],
+    rows: [['ChiangMai', 81, [26.4, 18.6, 14, 21.5]], ['Tbilisi', 81, [27.3, 18.6, 14, 21.5]], ['Ubud', 80, [26.2, 18.1, 14, 21.5]], ['LuangPrabang', 79, [26.4, 18.4, 14, 20.2]]] },
+  { note: ['for a beach break on €100 a day', 'für einen Strandurlaub mit 100 € am Tag'],
+    rows: [['ElNido', 83, [28.3, 16.7, 14, 24]], ['Split', 83, [27.6, 19, 14, 22]], ['Busan', 82, [27.7, 18.8, 14, 21]], ['Kotor', 82, [28.2, 18.8, 14, 21.5]]] }];
+const WJ = [['Tokyo', 'Tokio'], ['Lisbon', 'Lissabon'], ['Marrakech', 'Marrakesch'], ['Hanoi', 'Hanoi']];
+const WPINS = [[46, 16, 0], [52, 74, 1], [9, 92, 0], [93, 89, 1], [70, 96, 0]];
+const Pin = () => <svg viewBox="0 0 24 24" aria-hidden="true"><path className="pin" d="M12 22s7-7.2 7-12.5a7 7 0 0 0-14 0C5 14.8 12 22 12 22z" /><path className="river" d="M9.6 17c1.8-1.5.8-3 2.8-4.2 1.3-.8 2.5-.6 3.3-1.6" /></svg>;
+const Glass = () => <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4 4" /></svg>;
 
 export function MockWanderly() {
   const { t, lang } = useLang();
   const root = useRef(null);
+  // the app's typefaces and contour map load only once the preview comes near the screen
   useEffect(() => {
-    const el = root.current, $ = (c) => el.querySelector('.' + c), list = $('wList'), card = $('mw-card'), els = {};
-    list.replaceChildren(); let idx = 0, swap = 0;
-    Object.keys(WC).forEach((k) => { const r = document.createElement('div'); r.className = 'mw-row'; r.style.top = '38cqw'; r.style.opacity = '0';
-      r.innerHTML = '<span class="mw-rank"></span><span class="mw-name"><b></b><small></small><span class="mw-bar"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span></span></span><span class="mw-score"></span>';
-      list.appendChild(r); els[k] = r; });
-    const L = lang === 'de' ? 1 : 0;
-    const fillCard = (p) => { const k = p.rows[0][0], x = p.top; $('wCity').textContent = WC[k][L]; $('wCountry').textContent = WC[k][2 + L]; $('mw-sum').textContent = x.sum[L];
-      $('wBudget').textContent = L ? x.cost[0] + '–' + x.cost[1] + ' € am Tag' : '€' + x.cost[0] + '–' + x.cost[1] + ' a day';
-      $('wSafety').textContent = x.safe[0] + '/100, ' + x.safe[1][L]; $('wBest').textContent = x.best[L]; };
-    const render = (animate) => { const p = WP[idx], on = new Set(p.rows.map((r) => r[0])); $('mw-profile').textContent = p.name[L];
-      Object.keys(els).forEach((k) => { if (!on.has(k)) { els[k].style.top = '38cqw'; els[k].style.opacity = '0'; } });
-      p.rows.forEach(([k, score, f], i) => { const r = els[k]; r.style.top = (i * 9.3) + 'cqw'; r.style.opacity = '1';
-        r.querySelector('.mw-rank').textContent = i + 1; r.querySelector('b').textContent = WC[k][L]; r.querySelector('small').textContent = WC[k][2 + L];
-        r.querySelectorAll('.mw-bar span').forEach((s, j) => { s.style.width = f[j] + '%'; }); r.querySelector('.mw-score').textContent = score + '/100'; });
+    const el = root.current;
+    const io = new IntersectionObserver((es) => { if (es[0].isIntersecting) { el.classList.add('near'); io.disconnect(); } }, { rootMargin: '900px 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    const el = root.current, list = el.querySelector('.mw-list'), note = el.querySelector('.mw-note'), orbit = el.querySelector('.mw-orbit svg'), pins = el.querySelectorAll('.mw-pin'), els = {};
+    const L = lang === 'de' ? 1 : 0, H = 6.6;
+    list.replaceChildren();
+    Object.keys(WC).forEach((k) => {
+      const r = document.createElement('div'); r.className = 'mw-row'; r.style.transform = 'translateY(' + (4 * H) + 'cqw)'; r.style.opacity = '0';
+      r.innerHTML = '<span class="mw-n"></span><span class="mw-name"><b></b><small></small></span><span class="mw-strata"><i class="k1"></i><i class="k2"></i><i class="k3"></i><i class="k4"></i></span><span class="mw-score"></span>';
+      r.querySelector('b').textContent = WC[k][L]; r.querySelector('small').textContent = WC[k][2 + L];
+      list.appendChild(r); els[k] = r;
+    });
+    let idx = 0, turn = 0, swap = 0, ping = 0;
+    const render = (animate) => {
+      const p = WP[idx], on = new Set(p.rows.map((r) => r[0]));
+      Object.keys(els).forEach((k) => { if (!on.has(k)) { els[k].style.opacity = '0'; els[k].style.transform = 'translateY(' + (4 * H) + 'cqw)'; els[k].style.pointerEvents = 'none'; } });
+      p.rows.forEach(([k, score, f], i) => {
+        const r = els[k]; r.style.transform = 'translateY(' + (i * H) + 'cqw)'; r.style.opacity = '1';
+        r.querySelector('.mw-n').textContent = i + 1; r.querySelector('.mw-score').textContent = score;
+        r.querySelectorAll('.mw-strata i').forEach((s, j) => { s.style.width = f[j] + '%'; });
+      });
       clearTimeout(swap);
-      if (animate) { card.classList.add('swap'); swap = setTimeout(() => { fillCard(p); card.classList.remove('swap'); }, 300); } else fillCard(p); };
+      if (animate) {
+        note.classList.add('swap'); swap = setTimeout(() => { note.textContent = p.note[L]; note.classList.remove('swap'); }, 280);
+        turn += 72; orbit.style.transform = 'rotate(' + turn + 'deg)';
+        const pin = pins[idx % pins.length]; pin.classList.remove('ping'); void pin.offsetWidth; pin.classList.add('ping');
+        clearTimeout(ping); ping = setTimeout(() => pin.classList.remove('ping'), 1600);
+      } else note.textContent = p.note[L];
+    };
     render(false);
     if (reduceMotion) return;
     let timer = 0;
     const off = inView(el, (v) => { clearInterval(timer); if (v) timer = setInterval(() => { idx = (idx + 1) % WP.length; render(true); }, 5200); });
-    return () => { off(); clearInterval(timer); clearTimeout(swap); };
+    return () => { off(); clearInterval(timer); clearTimeout(swap); clearTimeout(ping); };
   }, [lang]);
+  const L = lang === 'de' ? 1 : 0;
   return (
     <div className="mock mw" ref={root} role="img" aria-label={t('w.aria')}>
-      <div className="mw-top"><span className="mw-logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path className="pin" d="M12 22s7-7.2 7-12.5a7 7 0 0 0-14 0C5 14.8 12 22 12 22z" /><path className="river" d="M9.6 17c1.8-1.5.8-3 2.8-4.2 1.3-.8 2.5-.6 3.3-1.6" /></svg>wanderly</span><span className="mw-profile">&nbsp;</span></div>
-      <div className="mw-body">
-        <div className="mw-col">
-          <strong>{t('w.matches')}</strong>
-          <div className="mw-list wList" />
-          <span className="mw-legend"><i className="k1" /><span>{t('w.f1')}</span><i className="k2" /><span>{t('w.f2')}</span><i className="k3" /><span>{t('w.f3')}</span><i className="k4" /><span>{t('w.f4')}</span></span>
+      <div className="mw-bg" aria-hidden="true">{WPINS.map(([x, y, lagoon], i) => <i key={i} className={'mw-pin' + (lagoon ? ' lagoon' : '')} style={{ left: x + '%', top: y + '%' }} />)}</div>
+      <div className="mw-nav">
+        <span className="mw-brand"><Pin />wanderly</span>
+        <span className="mw-links"><b>{t('w.nav1')}</b><span>{t('w.compare')}</span><span>{t('w.nav3')}</span></span>
+        <span className="mw-find"><Glass /><span>{t('w.find')}</span><kbd>/</kbd></span>
+        <span className="mw-cta">{t('w.plan')}</span>
+        <span className="mw-login">{t('w.login')}</span>
+      </div>
+      <div className="mw-hero">
+        <div className="mw-copy">
+          <div className="mw-h1" {...html(t('w.h1'))} />
+          <p className="mw-sub">{t('w.sub')}</p>
+          <div className="mw-search"><Glass /><span>{t('w.search')}</span><b>{t('w.go')}</b></div>
+          <div className="mw-pills"><span>{t('w.jump')}</span>{WJ.map((c) => <i key={c[0]}>{c[L]}</i>)}</div>
         </div>
         <div className="mw-card">
-          <span className="mw-kicker">{t('w.expect')}</span>
-          <div className="mw-city"><b className="wCity">&nbsp;</b><span className="wCountry" /></div>
-          <p className="mw-sum" />
-          <dl className="mw-facts">
-            <div><dt>{t('w.budget')}</dt><dd className="wBudget" /></div>
-            <div><dt>{t('w.f2')}</dt><dd className="wSafety" /></div>
-            <div><dt>{t('w.best')}</dt><dd className="wBest" /></div>
-          </dl>
-          <div className="mw-btns"><span className="go">{t('w.plan')}</span><span className="alt">{t('w.compare')}</span></div>
+          <div className="mw-orbit">
+            <svg viewBox="0 0 128 128"><defs><path id="mw-orbit-path" d="M64,64 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0" /></defs>
+              <text><textPath href="#mw-orbit-path" textLength="292" lengthAdjust="spacing">discover more  •  travel deeper  •</textPath></text></svg>
+            <span className="core"><Pin /></span>
+          </div>
+          <div className="mw-head"><b>{t('w.ranked')}</b><p className="mw-note">&nbsp;</p></div>
+          <div className="mw-list" />
+          <span className="mw-legend"><i className="k1" /><span>{t('w.f1')}</span><i className="k2" /><span>{t('w.f2')}</span><i className="k3" /><span>{t('w.f3')}</span><i className="k4" /><span>{t('w.f4')}</span></span>
         </div>
       </div>
     </div>
