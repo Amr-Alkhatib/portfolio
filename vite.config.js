@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // The privacy page shows a contact address for data protection requests.
 // It comes from VITE_CONTACT_EMAIL (Vercel → Settings → Environment Variables,
@@ -29,7 +29,10 @@ export default defineConfig(({ mode }) => {
       target: 'es2020',
       chunkSizeWarningLimit: 1200,
       rollupOptions: {
-        input: { main: resolve(__dirname, 'index.html'), privacy: resolve(__dirname, 'privacy.html') },
+        input: {
+          main: fileURLToPath(new URL('./index.html', import.meta.url)),
+          privacy: fileURLToPath(new URL('./privacy.html', import.meta.url)),
+        },
       },
     },
   };
