@@ -330,6 +330,21 @@ html.menu-open{overflow:hidden}
 .foot-links{display:flex;gap:22px}
 .foot-links a{text-decoration:none;color:var(--text-2)}
 .foot-links a:hover{color:var(--text)}
+.foot-legal{gap:18px}
+.foot-btn{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--text-2);cursor:pointer}
+.foot-btn:hover{color:var(--text)}
+.foot-legal a,.foot-btn{text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:4px}
+.form-note{margin:14px 0 0;font-size:13px;line-height:1.5;color:var(--text-3)}
+.form-note a{color:var(--text-2);text-underline-offset:3px}
+.form-note a:hover{color:var(--text)}
+/* consent bar for Vercel Web Analytics and Speed Insights: both choices look the same on purpose */
+.consent{position:fixed;z-index:60;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:min(440px,calc(100vw - 32px));padding:20px 22px;border-radius:18px;background:var(--ink-2);border:1px solid var(--line-2);box-shadow:var(--shadow-lg);color:var(--text)}
+.consent-h{margin:0 0 6px;font-size:17px;font-weight:700;font-stretch:112.5%;letter-spacing:-.01em}
+.consent-p{margin:0;font-size:14px;line-height:1.55;color:var(--text-2)}
+.consent-p a{color:var(--gold);text-underline-offset:3px}
+.consent-btns{display:flex;gap:10px;margin-top:16px}
+.consent-btns .btn{flex:1;color:var(--text)}
+@media (prefers-reduced-motion:no-preference){.consent{animation:consent-in .45s cubic-bezier(.2,.8,.2,1)}@keyframes consent-in{from{opacity:0;transform:translateY(12px)}}}
 
 /* scroll reveals start hidden only when motion is on */
 .motion .reveal{opacity:0;transform:translateY(26px)}

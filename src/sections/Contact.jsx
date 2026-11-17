@@ -69,6 +69,7 @@ function Form() {
         </Magnet>
       </div>
       <p className="form-status" role="status" aria-live="polite">{status ? t(status) : ''}</p>
+      <p className="form-note" {...html(t('f.privacy'))} />
     </form>
   );
 }

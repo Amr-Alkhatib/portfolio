@@ -21,7 +21,8 @@ My personal site: projects, models and experience, in English and German.
 - Contact form that delivers straight to my inbox (Web3Forms).
 - Responsive down to phone width, with a dedicated menu panel for phones and tablets.
 - Sitemap, `robots.txt` and Open Graph image for search and link previews.
-- Deployed on Vercel, with Web Analytics and Speed Insights.
+- Deployed on Vercel. Web Analytics and Speed Insights load only after a visitor allows them in the consent bar (EN/DE); the choice can be changed under "Privacy settings" in the footer or on `/privacy`.
+- Privacy policy at `/privacy` (`privacy.html`, English and German, works without JavaScript). Its contact address comes from the `VITE_CONTACT_EMAIL` environment variable; production builds on Vercel fail while it is missing.
 
 ## Run locally
 
@@ -31,4 +32,6 @@ npm run dev      # http://localhost:5173
 npm run build    # production build in dist/
 ```
 
-If you change the inline script in `index.html`, update its SHA-256 hash in the Content-Security-Policy in `vercel.json`.
+Set `VITE_CONTACT_EMAIL` in a local `.env` file (and in Vercel → Settings → Environment Variables) so `/privacy` shows the contact address.
+
+If you change the inline script in `index.html` or `privacy.html`, update its SHA-256 hash in the Content-Security-Policy in `vercel.json`.
