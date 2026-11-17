@@ -11,9 +11,11 @@ import Experience from './sections/Experience.jsx';
 import Contact from './sections/Contact.jsx';
 import Backdrop from './Backdrop.jsx';
 import { ThemeProvider } from './theme.jsx';
+import Consent from './Consent.jsx';
+import { openConsent } from './consent.js';
 
 function Footer() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   return (
     <footer className="site-foot">
       <div className="wrap foot-row">
@@ -21,6 +23,9 @@ function Footer() {
         <span className="made">{t('foot.made')}</span>
         <span className="foot-links">
           <a href="#work">{t('nav.work')}</a><a href="#models">{t('nav.models')}</a><a href="#experience">{t('nav.exp')}</a><a href="#top">{t('foot.top')}</a>
+        </span>
+        <span className="foot-links foot-legal">
+          <a href={lang === 'de' ? '/privacy?lang=de' : '/privacy'}>{t('foot.privacy')}</a><button type="button" className="foot-btn" onClick={openConsent}>{t('foot.consent')}</button>
         </span>
       </div>
     </footer>
@@ -72,6 +77,7 @@ function Shell() {
       </main>
       <Contact />
       <Footer />
+      <Consent />
     </div>
   );
 }
