@@ -1,0 +1,62 @@
+/* 404 page: the site's chip, seen from above, with one contact pad missing */
+.backdrop{z-index:0}
+.legal-top,.nf{position:relative;z-index:1}
+.nf{min-height:calc(100vh - 65px);min-height:calc(100svh - 65px);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:clamp(24px,5vw,72px);padding-block:clamp(40px,7vw,96px)}
+.nf-eyebrow{display:inline-flex;align-items:center;gap:10px;font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.nf-eyebrow::before{content:"";width:8px;height:8px;border-radius:2px;border:1.5px dashed var(--silicon)}
+.nf-title{margin-top:22px;max-width:13ch}
+.nf-lede{margin-top:24px;max-width:46ch}
+.nf-path{margin-top:18px;display:flex;align-items:baseline;gap:8px;font-size:15px;color:var(--text-3);min-width:0}
+.nf-path code{font:500 14px/1.4 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text);background:var(--ink-3);border:1px solid var(--line);border-radius:6px;padding:3px 8px;max-width:min(420px,70vw);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nf-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+
+/* the chip */
+.nf-chip{position:relative;width:min(400px,100%);aspect-ratio:1;justify-self:center;perspective:1400px}
+.nf-chip::after{content:"";position:absolute;left:12%;right:12%;bottom:-2%;height:18%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);filter:blur(8px);z-index:-1}
+:root[data-theme="light"] .nf-chip::after{background:radial-gradient(closest-side,rgba(20,30,70,.28),transparent)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .nf-chip::after{background:radial-gradient(closest-side,rgba(20,30,70,.28),transparent)}}
+.nf-float{position:absolute;inset:0;transform-style:preserve-3d}
+.nf-tilt{position:absolute;inset:6%;transform-style:preserve-3d;transform:rotateX(56deg) rotateZ(-38deg)}
+.nf-tilt>*{position:absolute;display:block}
+.nf-sub,.nf-sub-edge{inset:0;width:100%;height:100%}
+.nf-edge{border-radius:6.5%}
+.nf-sub-edge{background:#05070F;border:1px solid #1C2440}
+.nf-sub-edge:nth-child(1){transform:translateZ(-12px)}
+.nf-sub-edge:nth-child(2){transform:translateZ(-9px)}
+.nf-sub-edge:nth-child(3){transform:translateZ(-6px)}
+.nf-sub-edge:nth-child(4){transform:translateZ(-3px)}
+.nf-board{fill:#0B1022;stroke:#2A3456;stroke-width:2}
+.nf-pads rect{fill:#D9A647}
+.nf-pads .nf-hole{fill:rgba(142,156,255,.14);stroke:#8E9CFF;stroke-width:2;stroke-dasharray:3 2.4}
+.nf-trace{fill:none;stroke:#3A4675;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.nf-caps rect{fill:#6E5A3A;stroke:#C9A25B;stroke-width:1}
+.nf-lid,.nf-lid-edge{left:17.5%;top:17.5%;width:65%;height:65%}
+.nf-lid-edge{background:linear-gradient(135deg,#8A91A2,#5E6578);border-radius:8.5%}
+.nf-lid-edge:nth-child(6){transform:translateZ(2px)}
+.nf-lid-edge:nth-child(7){transform:translateZ(5px)}
+.nf-lid-edge:nth-child(8){transform:translateZ(8px)}
+.nf-lid-edge:nth-child(9){transform:translateZ(11px)}
+.nf-lid-edge:nth-child(10){transform:translateZ(14px)}
+.nf-lid{transform:translateZ(16px);border-radius:8.5%}
+.nf-lid text{fill:#151A2B;font-family:var(--sans)}
+.nf-lid-big{font-size:74px;font-weight:800;font-stretch:125%;letter-spacing:-2px}
+.nf-lid-sm{font-size:15px;font-weight:700;font-stretch:125%;letter-spacing:2px}
+.nf-lid-xs{font-size:10px;font-weight:600;font-stretch:112.5%;letter-spacing:1.6px;opacity:.75}
+
+@media (prefers-reduced-motion:no-preference){
+  .nf-float{animation:nf-float 7s ease-in-out infinite}
+  .nf-hole{animation:nf-blink 1.6s steps(2,jump-none) infinite}
+}
+@keyframes nf-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes nf-blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+@media (max-width:899px){
+  .nf{grid-template-columns:1fr;align-content:start;gap:8px;padding-top:28px}
+  .nf-chip{order:-1;width:min(280px,72vw)}
+  .nf-title{max-width:16ch}
+}
+@media (max-width:520px){
+  .nf-actions .btn{flex:1 1 100%}
+  .nf-lede{margin-top:18px}
+  .nf-actions{margin-top:28px}
+}

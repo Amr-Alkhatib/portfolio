@@ -32,6 +32,8 @@ export default defineConfig(({ mode }) => {
         input: {
           main: fileURLToPath(new URL('./index.html', import.meta.url)),
           privacy: fileURLToPath(new URL('./privacy.html', import.meta.url)),
+          // Vercel serves dist/404.html for every address that doesn't exist.
+          notfound: fileURLToPath(new URL('./404.html', import.meta.url)),
         },
       },
     },

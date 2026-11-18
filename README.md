@@ -23,6 +23,7 @@ My personal site: projects, models and experience, in English and German.
 - Sitemap, `robots.txt` and Open Graph image for search and link previews.
 - Deployed on Vercel. Web Analytics and Speed Insights load only after a visitor allows them in the consent bar (EN/DE); the choice can be changed under "Privacy settings" in the footer or on `/privacy`.
 - Privacy policy at `/privacy` (`privacy.html`, English and German, works without JavaScript). Its contact address comes from the `VITE_CONTACT_EMAIL` environment variable; production builds on Vercel fail while it is missing.
+- Custom 404 page (`404.html`, EN/DE): the chip seen from above with one contact pad missing, the address that was asked for, and links back. Vite builds it to `dist/404.html`, which Vercel serves with status 404 for any address that doesn't exist.
 
 ## Run locally
 
@@ -34,4 +35,4 @@ npm run build    # production build in dist/
 
 Set `VITE_CONTACT_EMAIL` in a local `.env` file (and in Vercel → Settings → Environment Variables) so `/privacy` shows the contact address.
 
-If you change the inline script in `index.html` or `privacy.html`, update its SHA-256 hash in the Content-Security-Policy in `vercel.json`.
+If you change the inline script in `index.html`, `privacy.html` or `404.html` (the last two share one script and one hash), update its SHA-256 hash in the Content-Security-Policy in `vercel.json`.
